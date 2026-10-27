@@ -6,7 +6,16 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#F5F6F8">
 <title>¡Lo Encontré! · Objetos perdidos del colegio</title>
+
+<!-- ── CONFIGURACIÓN PWA Y MODO NATIVO (SIN BARRA DE NAVEGACIÓN) ── -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="¡Lo Encontré!">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png" type="image/png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M6 5a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v22a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z' fill='%23FFC531'/%3E%3Ccircle cx='16' cy='8' r='2.2' fill='%23fff'/%3E%3Ccircle cx='16' cy='15' r='1.8' fill='%2317203A'/%3E%3Cpath d='M16 19v6' stroke='%2317203A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Figtree:wght@400;500;600;700&display=swap">
 <script>(function(){var t;try{t=localStorage.getItem('tema')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.tema=t;document.querySelector('meta[name=theme-color]').content=t=='dark'?'#0D1220':'#F5F6F8'})()</script>
@@ -512,40 +521,11 @@ addEventListener("offline",()=>estado("off"));
 addEventListener("online",()=>estado(S.perm?"perm":S.cargado?"ok":"wait"));
 matchMedia("(prefers-color-scheme:dark)").addEventListener("change",e=>{try{if(localStorage.getItem("tema"))return}catch{}tema(e.matches?"dark":"light",false)});
 
-ir("inicio");pinta();nube();
-</script>
-</body>
-</html>
-
-<!-- ... existing code ... -->
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#F5F6F8">
-<title>¡Lo Encontré! · Objetos perdidos del colegio</title>
-
-<!-- ============================================================== -->
-<!-- CONFIGURACIÓN PWA Y MODO NATIVO (SIN BARRA DE NAVEGACIÓN) -->
-<!-- ============================================================== -->
-<!-- Manifiesto para Android (Chrome) -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Meta tags para iOS (Safari / iPhone) -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="¡Lo Encontré!">
-<link rel="apple-touch-icon" href="icon.svg">
-
-<!-- Ícono de la pestaña / app -->
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<!-- ... existing code ... -->
-addEventListener("online",()=>estado(S.perm?"perm":S.cargado?"ok":"wait"));
-matchMedia("(prefers-color-scheme:dark)").addEventListener("change",e=>{try{if(localStorage.getItem("tema"))return}catch{}tema(e.matches?"dark":"light",false)});
-
 // ── REGISTRO SERVICE WORKER (Habilita instalación nativa en Android) ──
 if ('serviceWorker' in navigator) {
- window.addEventListener('load', () => {
-  navigator.serviceWorker.register('sw.js').catch(err => console.log('SW offline:', err));
- });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW offline:', err));
+  });
 }
 
 ir("inicio");pinta();nube();
