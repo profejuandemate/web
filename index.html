@@ -125,8 +125,9 @@ input:focus,select:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 3px 
 .tipo small{color:var(--ink3);font-size:13px}.tipo[aria-pressed=true]{border-color:var(--tc);background:var(--tb)}
 .auth{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--ln);border-radius:var(--rc);background:var(--sf)}
 .auth img{width:36px;height:36px;border-radius:50%}.auth div{flex:1;min-width:180px;display:grid}.auth small{color:var(--ink3);font-size:13px}
-.foto{display:flex;gap:14px;align-items:center}.foto img{width:88px;height:88px;border-radius:12px;object-fit:cover;background:var(--sf2);flex:none}
-.foto div{display:grid;gap:8px;justify-items:start}.foto small{color:var(--ink3);font-size:13px}
+.foto{display:flex;gap:14px;align-items:center;padding:10px 14px;border:1px solid var(--ln);border-radius:var(--rc);background:var(--sf)}
+.foto img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:var(--sf2);flex:none}
+.foto div{display:grid;gap:2px;align-content:center}.foto b{font-size:14px}.foto small{color:var(--ink3);font-size:12.5px}
 
 footer{display:none}
 .tabs{position:fixed;inset:auto 0 0;z-index:15;display:grid;grid-template-columns:repeat(3,1fr);padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:var(--sf);background:color-mix(in srgb,var(--sf) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--ln)}
@@ -177,7 +178,6 @@ footer{display:flex;justify-content:space-between;align-items:center;max-width:1
 <symbol id="i-msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></symbol>
 <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
-<symbol id="i-cam" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
@@ -257,9 +257,8 @@ footer{display:flex;justify-content:space-between;align-items:center;max-width:1
    <label><span id="l-cust"></span><select id="f-cust"></select></label>
    <label>Tu curso o rol<input id="f-curso" required maxlength="35" placeholder="Ej: 2° Medio A, Docente"></label>
    <div class="foto">
-    <img id="prev" alt="Vista previa del objeto">
-    <div><button type="button" class="btn sm" data-a="elige"><svg class="i"><use href="#i-cam"/></svg>Subir o tomar foto</button><small id="prevtxt"></small></div>
-    <input type="file" id="f-foto" accept="image/*" hidden>
+    <img id="prev" alt="Imagen ilustrativa según categoría">
+    <div><b>Imagen ilustrativa oficial</b><small>Se asigna automáticamente según la categoría seleccionada.</small></div>
    </div>
    <button class="btn pri big" type="submit" id="pub">Publicar aviso</button>
   </form>
@@ -327,7 +326,7 @@ const EST={ok:["ok","En vivo"],off:["off","Sin conexión"],perm:["off","Sin acce
 const PH="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23c5ccd8'/%3E%3C/svg%3E";
 const VACIO='<div class="vacio"><p>Todavía no hay avisos. Si perdiste o encontraste algo, sé el primero en publicar.</p><button class="btn pri" data-v="publicar">Publicar aviso</button></div>';
 
-const S={vista:"inicio",est:"Todos",lugar:"",tipo:"Perdido",foto:REF["Uniforme / Ropa"],subida:false,abierto:null,nCom:-1,borrar:null,user:null,mod:false,items:[],cargado:false,fallo:false,perm:false,toques:0,pausado:false};
+const S={vista:"inicio",est:"Todos",lugar:"",tipo:"Perdido",foto:REF["Uniforme / Ropa"],abierto:null,nCom:-1,borrar:null,user:null,mod:false,items:[],cargado:false,fallo:false,perm:false,toques:0,pausado:false};
 let db,auth,tt,ttap;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -351,8 +350,9 @@ function actualizaEstadoPausa(){
   bp.textContent=S.pausado?"▶️ Reanudar Muro (En vivo)":"🚨 Pausar Muro (Pánico)";
   bp.style.background=S.pausado?"#0F7A52":"#D92D20";
  }
- const p=$("#pub");if(p)p.disabled=S.pausado;
- const cs=$("#c-send");if(cs)cs.disabled=S.pausado;
+ document.querySelectorAll("#f input, #f select, #f button, #cf input, #cf button").forEach(el=>{
+  if(el.id!=="btn-panico")el.disabled=S.pausado;
+ });
  if(S.pausado){
   const l=$("#live");l.className="live pause";
   l.querySelector("b").textContent="Muro en Pausa";
@@ -396,7 +396,7 @@ function pintaForm(){
  document.querySelectorAll(".tipo").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===S.tipo));
  $("#l-lugar").textContent=p?"¿Dónde lo viste por última vez?":"¿Dónde lo encontraste?";
  $("#l-cust").textContent=p?"¿Dónde te avisan si alguien lo ve?":"¿Dónde dejaste guardado el objeto?";
- $("#prev").src=S.foto;$("#prevtxt").textContent=S.subida?"Tu foto está lista.":"Imagen de referencia. Sube una foto real si la tienes.";
+ $("#prev").src=S.foto;
 }
 function pintaDetalle(){
  const o=S.items.find(x=>x.id===S.abierto);
@@ -423,7 +423,7 @@ function nube(){
   onSnapshot(doc(db,"configuracion_colegio",DOC_CONFIG),snap=>{
    S.pausado=snap.exists()&&snap.data()?.pausado===true;
    actualizaEstadoPausa();
-  });
+  },err=>console.warn("Estado pausa:",err));
 
   onSnapshot(collection(db,COL),snap=>{
    S.items=snap.docs.map(d=>{const x=d.data();let c=[];try{c=x.comentariosJson?JSON.parse(x.comentariosJson):(x.comentarios||[])}catch{}return{...x,id:d.id,comentarios:c}}).sort((a,b)=>(b.creadoEn||0)-(a.creadoEn||0));
@@ -465,7 +465,6 @@ const A={
  abre(el){S.abierto=el.dataset.id;S.nCom=-1;pintaDetalle();$("#dd").showModal()},
  cierra:()=>$("#dd").close(),
  rapido(el){const i=$("#c-txt");i.value=el.dataset.t;i.focus()},
- elige:()=>$("#f-foto").click(),
  recup:cambiaEstado,
  borraObj(el){pideBorrar("objeto",el.dataset.id)},
  borraCom(el){pideBorrar("comentario",el.dataset.id,S.abierto)},
@@ -512,35 +511,29 @@ async function comenta(e){
  if(bloqueado(texto))return toast("Comentario no permitido por norma escolar","err");
  const nuevo={id:"com-"+Date.now(),autor:u.displayName||"Estudiante",autorFoto:u.photoURL||"",autorEmail:u.email||"",texto,hora:new Date().toTimeString().slice(0,5),creadoEn:Date.now()};
  const b=$("#c-send");b.disabled=true;
- try{await mutaCom(S.abierto,c=>[...c,nuevo]);inp.value="";toast("Comentario publicado")}catch(x){fallo(x)}finally{b.disabled=false}
+ try{await mutaCom(S.abierto,c=>[...c,nuevo]);inp.value="";toast("Comentario publicado")}catch(x){
+  if(x?.code==="permission-denied")toast("El muro escolar está temporalmente pausado por moderación","err");
+  else fallo(x);
+ }finally{b.disabled=false}
 }
 
-function comprime(f){return new Promise((ok,no)=>{
- const u=URL.createObjectURL(f),im=new Image();
- im.onload=()=>{URL.revokeObjectURL(u);let m=960,q=.72,d;
-  do{const k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
-   const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);d=c.toDataURL("image/jpeg",q);q-=.1;m*=.85}
-  while(d.length>380000&&q>.3);ok(d)};
- im.onerror=()=>no();im.src=u})}
-async function sube(e){
- const f=e.target.files[0];if(!f)return;
- try{S.foto=await comprime(f);S.subida=true;pintaForm()}catch{toast("No se pudo leer esa imagen. Prueba con otra foto.","err")}
- e.target.value="";
-}
 async function publica(e){
  e.preventDefault();const u=S.user;
  if(!u){toast("Inicia sesión con Google para publicar","err");return login()}
  if(S.pausado)return toast("El muro está temporalmente pausado por moderación","err");
- const v=s=>$(s).value.trim(),titulo=v("#f-titulo"),lugar=v("#f-lugar"),curso=v("#f-curso");
+ const v=s=>$(s).value.trim(),titulo=v("#f-titulo"),lugar=v("#f-lugar"),curso=v("#f-curso"),categoria=$("#f-cat").value;
  if(bloqueado(`${titulo} ${lugar} ${curso}`))return toast("Usa un lenguaje respetuoso en el aviso","err");
  const id="item-"+Date.now();
- const obj={id,tipo:S.tipo,titulo,categoria:$("#f-cat").value,lugar,custodia:$("#f-cust").value,autor:`${u.displayName||"Estudiante"} (${curso})`,autorFoto:u.photoURL||"",autorEmail:u.email||"",foto:S.foto,creadoEn:Date.now(),comentarios:[],comentariosJson:"[]"};
+ const obj={id,tipo:S.tipo,titulo,categoria,lugar,custodia:$("#f-cust").value,autor:`${u.displayName||"Estudiante"} (${curso})`,autorFoto:u.photoURL||"",autorEmail:u.email||"",foto:REF[categoria]||REF["Uniforme / Ropa"],creadoEn:Date.now(),comentarios:[],comentariosJson:"[]"};
  const b=$("#pub");b.disabled=true;
  try{
   const lento=await Promise.race([setDoc(doc(db,COL,id),obj).then(()=>false),new Promise(r=>setTimeout(()=>r(true),8000))]);
-  e.target.reset();S.subida=false;S.foto=REF[$("#f-cat").value];S.est="Todos";S.lugar="";$("#q").value="";
+  e.target.reset();S.foto=REF[$("#f-cat").value];S.est="Todos";S.lugar="";$("#q").value="";
   toast(lento?"Sin conexión estable: tu aviso se enviará apenas vuelva la señal":"Aviso publicado",lento?"info":"ok");ir("muro");pintaMuro();
- }catch(x){fallo(x)}finally{b.disabled=false}
+ }catch(x){
+  if(x?.code==="permission-denied")toast("El muro escolar está temporalmente pausado por moderación","err");
+  else fallo(x);
+ }finally{b.disabled=false}
 }
 
 // ── Arranque ──────────────────────────────────────────────────────
@@ -549,8 +542,10 @@ $("#f-cust").innerHTML=CUST.map(c=>`<option>${c}</option>`).join("");
 $("#q").addEventListener("input",pintaMuro);
 $("#f").addEventListener("submit",publica);
 $("#cf").addEventListener("submit",comenta);
-$("#f-foto").addEventListener("change",sube);
-$("#f-cat").addEventListener("change",()=>{if(!S.subida){S.foto=REF[$("#f-cat").value];pintaForm()}});
+$("#f-cat").addEventListener("change",()=>{
+ S.foto=REF[$("#f-cat").value]||REF["Uniforme / Ropa"];
+ pintaForm();
+});
 $("#pf").addEventListener("submit",e=>{
  e.preventDefault();if($("#pin").value.trim()!==PIN_DOCENTE){toast("PIN incorrecto","err");$("#pin").value="";return}
  S.mod=true;
