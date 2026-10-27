@@ -1,1543 +1,518 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Lo Encontré! - Muro Escolar de Objetos Perdidos</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #090d16;
-            color: #f1f5f9;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F5F6F8">
+<title>¡Lo Encontré! · Objetos perdidos del colegio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M6 5a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v22a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z' fill='%23FFC531'/%3E%3Ccircle cx='16' cy='8' r='2.2' fill='%23fff'/%3E%3Ccircle cx='16' cy='15' r='1.8' fill='%2317203A'/%3E%3Cpath d='M16 19v6' stroke='%2317203A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Figtree:wght@400;500;600;700&display=swap">
+<script>(function(){var t;try{t=localStorage.getItem('tema')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.tema=t;document.querySelector('meta[name=theme-color]').content=t=='dark'?'#0D1220':'#F5F6F8'})()</script>
+<style>
+:root{--bg:#F5F6F8;--sf:#fff;--sf2:#EDF0F4;--ln:#E0E4EB;--ink:#17203A;--ink2:#475467;--ink3:#667085;--ac:#FFC531;--lost:#B83A25;--lostbg:#FCEAE6;--found:#0F7A52;--foundbg:#E2F3EA;--done:#3D5A9E;--donebg:#E7ECF8;--r:12px;--rc:16px;color-scheme:light}
+[data-tema=dark]{--bg:#0D1220;--sf:#151B2C;--sf2:#1E2539;--ln:#283250;--ink:#EDF0F7;--ink2:#AEB7CB;--ink3:#8B94AB;--lost:#FF9079;--lostbg:rgba(255,144,121,.14);--found:#52D9A3;--foundbg:rgba(82,217,163,.13);--done:#9DB8FF;--donebg:rgba(157,184,255,.14);color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{font:400 15px/1.5 Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-tap-highlight-color:transparent}
+body:has(dialog[open]){overflow:hidden}
+h1,h2,h3,h4,.logo,.st b{font-family:'Bricolage Grotesque',Figtree,sans-serif;letter-spacing:-.02em;line-height:1.15}
+button,input,select{font:inherit;color:inherit}button{background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.theme-anim *{transition:background-color .25s,border-color .25s,color .25s!important}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.g{width:18px;height:18px;flex:none}
+[data-tema=dark] .moon,:root:not([data-tema=dark]) .sun{display:none}
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+header{position:sticky;top:0;z-index:20;background:var(--bg);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln);padding-top:env(safe-area-inset-top)}
+.bar{max-width:1120px;margin:auto;height:60px;padding:0 12px 0 16px;display:flex;align-items:center;gap:8px}
+.logo{flex:1;display:flex;align-items:center;gap:9px;font-size:20px;font-weight:700;cursor:pointer;user-select:none}
+.right{flex:1;display:flex;justify-content:flex-end;align-items:center;gap:6px}
+.top{display:none;gap:4px;background:var(--sf2);padding:4px;border-radius:999px}
+.seg button,.top button{white-space:nowrap;height:34px;padding:0 14px;border-radius:999px;font-weight:600;color:var(--ink2)}
+.top button[aria-current=page],.seg button[aria-pressed=true]{background:var(--sf);color:var(--ink);box-shadow:0 1px 3px rgba(16,24,40,.14)}
+.top .n{color:var(--ink3);font-weight:500;margin-left:4px}
+.live{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);margin-right:4px}
+.live b{display:none;font-weight:500}
+.live i{position:relative;width:8px;height:8px;border-radius:50%;background:var(--ink3)}
+.live.ok i{background:var(--found)}.live.off i{background:var(--lost)}
+.live.ok i::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--found);opacity:0;animation:pulso 2.6s infinite}
+@keyframes pulso{from{transform:scale(.5);opacity:.7}to{transform:scale(1.3);opacity:0}}
+#me{display:flex;align-items:center;gap:2px}
+#me img{width:32px;height:32px;border-radius:50%;object-fit:cover;background:var(--sf2)}
+#me span{display:none;font-weight:600;margin:0 4px 0 8px}
+#mod{display:flex;justify-content:center;align-items:center;gap:14px;padding:6px 12px;background:var(--ink);color:var(--bg);font-size:13px}
+#mod button{text-decoration:underline;text-underline-offset:3px;font-weight:600}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade { animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:var(--r);border:1px solid var(--ln);background:var(--sf);font-weight:600;white-space:nowrap;transition:background .15s,transform .1s}
+.btn:hover{background:var(--sf2)}.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--ac);border-color:transparent;color:#17203A}.btn.pri:hover{filter:brightness(.96)}
+.btn.ink{background:var(--ink);border-color:transparent;color:var(--bg)}.btn.ink:hover{opacity:.9}
+.btn.danger{background:#D92D20;border-color:transparent;color:#fff}
+.btn.sm{height:36px;padding:0 14px;font-size:14px}.btn.big{height:50px;font-size:16px}.btn:disabled{opacity:.55;pointer-events:none}
+.ib{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--ink2);flex:none}.ib:hover{background:var(--sf2)}
 
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(244, 63, 94, 0); }
-        }
-        .pulse-lost { animation: pulseGlow 2.2s infinite; }
-    </style>
+main{max-width:1120px;margin:0 auto;padding:20px 16px calc(96px + env(safe-area-inset-bottom))}
+.view{animation:ent .18s ease-out}@keyframes ent{from{opacity:0}}
+.lost{--tb:var(--lostbg);--tc:var(--lost)}.found{--tb:var(--foundbg);--tc:var(--found)}.done{--tb:var(--donebg);--tc:var(--done)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px 0 7px;border-radius:7px;font-size:12.5px;font-weight:600;background:var(--tb);color:var(--tc)}
+.tag::before{content:'';width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor}
+
+.hero{display:grid;gap:24px;align-items:center;margin-bottom:36px}
+h1{font-size:clamp(30px,6vw,52px);font-weight:700;text-wrap:balance}
+.lead{color:var(--ink2);font-size:17px;max-width:46ch;margin:14px 0 22px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.st{display:flex;flex-direction:column;gap:2px;padding:14px;text-align:left;border:1px solid var(--ln);border-radius:var(--rc);background:var(--sf);transition:border-color .15s}
+.st:hover{border-color:var(--ink3)}
+.st b{font-size:32px;font-weight:700;color:var(--tc)}.st span{font-size:13.5px;color:var(--ink2)}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}.sec h2{font-size:22px}
+.lnk{color:var(--ink2);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.list{display:grid;gap:10px}
+.fila{position:relative;display:flex;gap:12px;align-items:center;padding:10px;background:var(--sf);border:1px solid var(--ln);border-radius:var(--rc);transition:border-color .15s}
+.fila img{width:60px;height:60px;border-radius:10px;object-fit:cover;flex:none;background:var(--sf2)}
+.fila div{min-width:0;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.fila h3{font-size:16px;max-width:100%}.fila small{color:var(--ink3);font-size:13px}
+.open{font:inherit;text-align:left;display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.open::after{content:'';position:absolute;inset:0;border-radius:inherit}
+.open:focus-visible{outline:0}
+.card:has(.open:focus-visible),.fila:has(.open:focus-visible){outline:2px solid var(--ink);outline-offset:2px}
+.card:hover,.fila:hover{border-color:var(--ink3)}
+
+.tools{display:grid;gap:10px;margin-bottom:14px}
+.search{display:flex;align-items:center;gap:8px;height:48px;padding:0 6px 0 14px;background:var(--sf);border:1px solid var(--ln);border-radius:var(--r);color:var(--ink3)}
+.search:focus-within{border-color:var(--ink)}
+.search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:none;color:var(--ink);font-size:16px;padding:0}
+input[type=search]::-webkit-search-cancel-button{display:none}
+.seg{display:flex;gap:4px;background:var(--sf2);padding:4px;border-radius:999px;overflow-x:auto;scrollbar-width:none}.seg button{flex:1;padding:0 12px}
+.chips,.quick{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chip,.quick button{flex:none;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--ln);background:var(--sf);font-size:14px;color:var(--ink2)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+#cuenta{color:var(--ink3);font-size:13.5px;margin-bottom:10px;min-height:20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{position:relative;display:flex;flex-direction:column;background:var(--sf);border:1px solid var(--ln);border-radius:var(--rc);overflow:hidden;transition:border-color .15s}
+.card.done{opacity:.8}.card.done img{filter:grayscale(.6)}
+.ph{position:relative;aspect-ratio:16/10;background:var(--sf2)}.ph img{width:100%;height:100%;object-fit:cover}
+.ph .tag{position:absolute;left:10px;top:10px;background:var(--sf);box-shadow:0 0 0 1px var(--ln)}
+.del{position:absolute;right:8px;top:8px;width:34px;height:34px;z-index:1;background:var(--sf);color:var(--lost);box-shadow:0 0 0 1px var(--ln)}
+.cb{display:flex;flex-direction:column;gap:6px;flex:1;padding:12px 14px 14px}
+.cb h3{font-size:17px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
+.cb p{display:flex;gap:7px;align-items:center;font-size:14px;color:var(--ink2)}.cb p span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cf{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink3)}
+.cf span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cf span:last-child{display:flex;align-items:center;gap:5px;flex:none}
+.vacio{grid-column:1/-1;display:grid;gap:14px;justify-items:center;padding:36px 16px;text-align:center;color:var(--ink2);border:1px dashed var(--ln);border-radius:var(--rc)}
+
+.form{max-width:600px;margin:0 auto;display:grid;gap:16px}.form h2{font-size:26px}
+.form label{display:grid;gap:6px;font-weight:600;font-size:14.5px}
+input,select{width:100%;min-width:0;height:48px;padding:0 14px;border:1px solid var(--ln);border-radius:var(--r);background:var(--sf);font-size:16px;font-weight:400}
+input:focus,select:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 12%,transparent)}
+.two{display:grid;gap:12px}
+.tipos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tipo{display:grid;gap:2px;padding:12px 14px;text-align:left;border:1.5px solid var(--ln);border-radius:var(--r);background:var(--sf)}
+.tipo small{color:var(--ink3);font-size:13px}.tipo[aria-pressed=true]{border-color:var(--tc);background:var(--tb)}
+.auth{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--ln);border-radius:var(--rc);background:var(--sf)}
+.auth img{width:36px;height:36px;border-radius:50%}.auth div{flex:1;min-width:180px;display:grid}.auth small{color:var(--ink3);font-size:13px}
+.foto{display:flex;gap:14px;align-items:center}.foto img{width:88px;height:88px;border-radius:12px;object-fit:cover;background:var(--sf2);flex:none}
+.foto div{display:grid;gap:8px;justify-items:start}.foto small{color:var(--ink3);font-size:13px}
+
+footer{display:none}
+.tabs{position:fixed;inset:auto 0 0;z-index:15;display:grid;grid-template-columns:repeat(3,1fr);padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:var(--sf);background:color-mix(in srgb,var(--sf) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--ln)}
+.tabs button{display:grid;justify-items:center;gap:2px;padding:4px 0;font-size:12.5px;font-weight:600;color:var(--ink3)}
+.tabs .i{box-sizing:content-box;padding:5px 16px;border-radius:14px}
+.tabs button[aria-current=page]{color:var(--ink)}.tabs button[aria-current=page] .i{background:var(--ac);color:#17203A}
+
+#toast{position:fixed;inset:auto;top:calc(12px + env(safe-area-inset-top));left:50%;margin:0;max-width:min(92vw,420px);padding:11px 16px;overflow:visible;border:1px solid var(--ln);border-radius:12px;background:var(--sf);color:var(--ink);font-size:14.5px;font-weight:500;box-shadow:0 8px 24px rgba(10,14,25,.2);transform:translate(-50%,-8px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+#toast.on{opacity:1;transform:translate(-50%,0)}#toast.err{border-color:var(--lost)}
+dialog{border:0;padding:0;max-width:none;max-height:none;overflow:hidden;color:var(--ink);background:var(--sf)}
+dialog::backdrop{background:rgba(8,12,22,.55)}
+dialog[open]{animation:up .22s cubic-bezier(.2,.8,.2,1)}@keyframes up{from{transform:translateY(20px);opacity:0}}
+.mini{width:min(360px,calc(100% - 32px));margin:auto;border-radius:20px}.mini .in{display:grid;gap:12px;padding:22px}.mini p{color:var(--ink2);font-size:14.5px}.mini .row .btn{flex:1}.mini h3{font-size:20px}
+#pin{text-align:center;font-size:20px;letter-spacing:.3em}
+.sheet{width:100%;height:92dvh;margin:auto 0 0;border-radius:20px 20px 0 0}.sheet .in{display:flex;flex-direction:column;height:100%}
+.dh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 18px;border-bottom:1px solid var(--ln)}
+.dh span{display:flex;align-items:center;gap:10px;min-width:0;color:var(--ink3);font-size:13.5px}
+.db{flex:1;min-height:0;overflow:auto}
+.dl{display:grid;gap:12px;align-content:start;padding:16px 18px}
+.dl img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--rc);background:var(--sf2)}.dl h3{font-size:22px}
+.meta{display:grid;gap:8px;font-size:14.5px}.meta div{display:grid;grid-template-columns:88px 1fr;gap:8px}.meta dt{color:var(--ink3)}.meta dd{margin:0;overflow-wrap:anywhere}
+.own{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r);background:var(--sf2);font-size:14.5px}
+.dr{display:flex;flex-direction:column;padding:0 18px}.dr h4{font-size:17px;padding:12px 0 8px}
+.clist{display:grid;gap:14px;align-content:start;padding:4px 0 14px}
+.cm{display:flex;gap:10px;align-items:flex-start}.cm img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:none;background:var(--sf2)}
+.cm>div{flex:1;min-width:0}.cm time{margin-left:6px;color:var(--ink3);font-size:12.5px}.cm p{overflow-wrap:anywhere}
+#cf{position:sticky;bottom:0;display:grid;gap:8px;padding:8px 0 calc(10px + env(safe-area-inset-bottom));background:var(--sf)}
+.cbox{display:flex;gap:8px}.note{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:var(--r);background:var(--sf2);font-size:14.5px}
+
+@media(min-width:600px){.two{grid-template-columns:1fr 1fr}.list{grid-template-columns:1fr 1fr}}
+@media(min-width:760px){
+main{padding:32px 24px 48px}.tabs{display:none}.top{display:flex}.live b{display:block}#me span{display:block}
+footer{display:flex;justify-content:space-between;align-items:center;max-width:1120px;margin:0 auto;padding:16px 16px 28px;color:var(--ink3);font-size:13px}
+.tools{grid-template-columns:1fr auto}.chips{grid-column:1/-1}.seg{overflow:visible}
+.sheet{width:min(940px,calc(100% - 48px));height:min(660px,88dvh);margin:auto;border-radius:20px}
+.sheet .db{display:grid;grid-template-columns:340px 1fr;overflow:hidden}.dl{overflow:auto}
+.dr{min-height:0;border-left:1px solid var(--ln)}.clist{flex:1;overflow:auto;min-height:0}#cf{position:static}}
+@media(min-width:860px){.hero{grid-template-columns:1.45fr 1fr;gap:56px;margin:12px 0 48px}.stats{grid-template-columns:1fr}.st{flex-direction:row;align-items:center;justify-content:space-between}}
+@media(min-width:1000px){.list{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col bg-slate-950">
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM3.3 7 12 12l8.7-5M12 22V12"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 22V12h6v10"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+<symbol id="g" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.67v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.16z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></symbol>
+</defs></svg>
 
-    <!-- =================================================================
-         NOTIFICACIÓN FLOTANTE (CUSTOM TOAST)
-         ================================================================= -->
-    <div id="custom-toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] bg-slate-900/95 border border-emerald-500/50 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 pointer-events-none scale-95 max-w-md w-[90%] md:w-auto">
-        <span id="toast-icon" class="text-xl shrink-0">✅</span>
-        <span id="toast-text" class="text-xs md:text-sm font-semibold">Operación completada</span>
+<div id="toast" popover="manual" role="status"></div>
+
+<header>
+ <div id="mod" hidden><span>Modo moderación activo</span><button data-a="ocultaMod">Ocultar</button></div>
+ <div class="bar">
+  <div class="logo" data-a="logo">
+   <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M6 5a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v22a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z" fill="#FFC531"/><circle cx="16" cy="8" r="2.2" style="fill:var(--bg)"/><circle cx="16" cy="15" r="1.8" fill="#17203A"/><path d="M16 19v6" stroke="#17203A" stroke-width="3" stroke-linecap="round"/></svg>
+   ¡Lo Encontré!
+  </div>
+  <nav class="top"><button data-v="inicio">Inicio</button><button data-v="muro">Muro<span class="n" id="cnt">0</span></button><button data-v="publicar">Publicar</button></nav>
+  <div class="right">
+   <span class="live wait" id="live"><i></i><b>Conectando…</b></span>
+   <button class="ib" data-a="tema" aria-label="Cambiar entre tema claro y oscuro"><svg class="i sun"><use href="#i-sun"/></svg><svg class="i moon"><use href="#i-moon"/></svg></button>
+   <button class="btn ink sm" id="login" data-a="login">Ingresar</button>
+   <div id="me" hidden><img id="meImg" alt=""><span id="meName"></span><button class="ib" data-a="logout" aria-label="Cerrar sesión"><svg class="i"><use href="#i-out"/></svg></button></div>
+  </div>
+ </div>
+</header>
+
+<main>
+ <section id="v-inicio" class="view">
+  <div class="hero">
+   <div>
+    <h1>¿Perdiste tu polerón, calculadora o pase TNE?</h1>
+    <p class="lead">Revisa los avisos del colegio o publica lo que encontraste para devolverlo a su dueño.</p>
+    <div class="row"><button class="btn pri big" data-a="nuevo" data-t="Perdido">Perdí algo</button><button class="btn big" data-a="nuevo" data-t="Encontrado">Encontré algo</button></div>
+   </div>
+   <div class="stats">
+    <button class="st lost" data-a="filtra" data-e="Perdido"><b id="s-P">0</b><span>Perdidos</span></button>
+    <button class="st found" data-a="filtra" data-e="Encontrado"><b id="s-E">0</b><span>Encontrados</span></button>
+    <button class="st done" data-a="filtra" data-e="Recuperado"><b id="s-R">0</b><span>Devueltos</span></button>
+   </div>
+  </div>
+  <div class="sec"><h2>Últimos avisos</h2><button class="lnk" data-v="muro">Ver todos</button></div>
+  <div id="recientes" class="list"></div>
+ </section>
+
+ <section id="v-muro" class="view" hidden>
+  <div class="tools">
+   <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Buscar objeto, lugar o curso" autocomplete="off"><button type="button" class="ib" id="qx" data-a="limpia" aria-label="Limpiar búsqueda" hidden><svg class="i"><use href="#i-x"/></svg></button></label>
+   <div class="seg" id="seg"></div>
+   <div class="chips" id="chips"></div>
+  </div>
+  <p id="cuenta"></p>
+  <div id="grid" class="grid"></div>
+ </section>
+
+ <section id="v-publicar" class="view" hidden>
+  <form id="f" class="form">
+   <h2>Publicar un aviso</h2>
+   <div class="auth" id="authbox"></div>
+   <div class="tipos">
+    <button type="button" class="tipo lost" data-a="tipo" data-t="Perdido"><b>Perdí algo</b><small>Busco algo que se me quedó</small></button>
+    <button type="button" class="tipo found" data-a="tipo" data-t="Encontrado"><b>Encontré algo</b><small>Quiero devolverlo a su dueño</small></button>
+   </div>
+   <label>¿Qué objeto es y cómo se reconoce?<input id="f-titulo" required maxlength="80" placeholder="Ej: Polerón azul marino talla M con nombre en la etiqueta"></label>
+   <div class="two">
+    <label>Categoría<select id="f-cat"></select></label>
+    <label><span id="l-lugar"></span><input id="f-lugar" required maxlength="50" placeholder="Ej: Cancha de pasto o graderías"></label>
+   </div>
+   <label><span id="l-cust"></span><select id="f-cust"></select></label>
+   <label>Tu curso o rol<input id="f-curso" required maxlength="35" placeholder="Ej: 2° Medio A, Docente"></label>
+   <div class="foto">
+    <img id="prev" alt="Vista previa del objeto">
+    <div><button type="button" class="btn sm" data-a="elige"><svg class="i"><use href="#i-cam"/></svg>Subir o tomar foto</button><small id="prevtxt"></small></div>
+    <input type="file" id="f-foto" accept="image/*" hidden>
+   </div>
+   <button class="btn pri big" type="submit" id="pub">Publicar aviso</button>
+  </form>
+ </section>
+</main>
+
+<footer><span>¡Lo Encontré! · Red de ayuda entre compañeros</span><button class="ib" data-a="pin" aria-label="Acceso de moderación"><svg class="i"><use href="#i-lock"/></svg></button></footer>
+
+<nav class="tabs">
+ <button data-v="inicio"><svg class="i"><use href="#i-home"/></svg>Inicio</button>
+ <button data-v="muro"><svg class="i"><use href="#i-grid"/></svg>Muro</button>
+ <button data-v="publicar"><svg class="i"><use href="#i-plus"/></svg>Publicar</button>
+</nav>
+
+<dialog id="dd" class="sheet" aria-label="Detalle del aviso"><div class="in">
+ <div class="dh"><span id="d-tag"></span><button class="ib" data-a="cierra" aria-label="Cerrar"><svg class="i"><use href="#i-x"/></svg></button></div>
+ <div class="db">
+  <div class="dl">
+   <img id="d-img" alt="">
+   <h3 id="d-tit"></h3>
+   <dl class="meta"><div><dt>Visto en</dt><dd id="d-lug"></dd></div><div><dt>Dónde está</dt><dd id="d-cus"></dd></div><div><dt>Publicó</dt><dd id="d-aut"></dd></div></dl>
+   <div class="own"><span>¿Ya apareció el dueño?</span><button class="btn sm" id="d-rec" data-a="recup"></button></div>
+  </div>
+  <div class="dr">
+   <h4>Comentarios (<span id="d-n">0</span>)</h4>
+   <div id="d-list" class="clist"></div>
+   <form id="cf">
+    <div id="c-login" class="note"><span>Inicia sesión con Google para comentar.</span><button type="button" class="btn sm" data-a="login"><svg class="g"><use href="#g"/></svg>Ingresar</button></div>
+    <div id="c-form" hidden style="display:grid;gap:8px">
+     <div class="quick">
+      <button type="button" data-a="rapido" data-t="¡Es mío! En el próximo recreo paso a buscarlo, gracias.">Es mío</button>
+      <button type="button" data-a="rapido" data-t="Sé de quién es: es de un compañero de mi curso y ya le avisé.">Sé de quién es</button>
+      <button type="button" data-a="rapido" data-t="Lo vi en Inspectoría, pregunten allá.">Está en Inspectoría</button>
+     </div>
+     <div class="cbox"><input id="c-txt" required maxlength="140" placeholder="Escribe una pista o reclama el objeto" autocomplete="off"><button class="btn ink" id="c-send" type="submit">Enviar</button></div>
     </div>
-
-    <!-- =================================================================
-         MODAL DE CONFIRMACIÓN DE BORRADO
-         ================================================================= -->
-    <div id="modal-confirmar-borrado" class="hidden fixed inset-0 z-[95] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-2xl">
-            <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto">
-                <i data-lucide="trash-2" class="w-6 h-6"></i>
-            </div>
-            <div>
-                <h3 class="text-base font-bold text-white" id="titulo-modal-borrado">¿Eliminar publicación?</h3>
-                <p class="text-xs text-slate-400 mt-1" id="desc-modal-borrado">Esta acción eliminará el elemento del muro escolar de forma definitiva.</p>
-            </div>
-            <div class="grid grid-cols-2 gap-2 pt-2">
-                <button type="button" onclick="cerrarConfirmacionBorrado()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition">
-                    Cancelar
-                </button>
-                <button type="button" id="btn-confirmar-eliminar-accion" class="bg-rose-600 hover:bg-rose-500 text-white font-black py-2.5 rounded-xl text-xs transition shadow-lg">
-                    Sí, eliminar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =================================================================
-         BARRA SUPERIOR (HEADER) RESPONSIVA
-         ================================================================= -->
-    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 lg:px-8 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            
-            <!-- Logo y nombre (Acceso secreto alternativo: 3 toques) -->
-            <div onclick="toqueSecretoLogo()" class="cursor-pointer flex items-center gap-2.5 select-none group" title="Comunidad Escolar">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-pink-500 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/20 group-active:scale-95 transition">
-                    🎒
-                </div>
-                <div>
-                    <h1 class="text-base md:text-lg font-black text-white tracking-tight flex items-center gap-1.5 leading-none">
-                        ¡Lo Encontré!
-                    </h1>
-                    <p class="text-[11px] text-indigo-300 font-medium mt-0.5">
-                        Objetos Perdidos del Colegio
-                    </p>
-                </div>
-            </div>
-
-            <!-- Navegación Desktop -->
-            <nav class="hidden md:flex items-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 text-xs">
-                <button onclick="cambiarVista('inicio')" id="nav-desktop-inicio" class="px-4 py-2 rounded-xl font-bold transition flex items-center gap-1.5 text-pink-400 bg-slate-900 shadow">
-                    <i data-lucide="compass" class="w-4 h-4"></i>
-                    <span>Radar</span>
-                </button>
-                <button onclick="cambiarVista('muro')" id="nav-desktop-muro" class="px-4 py-2 rounded-xl font-medium transition flex items-center gap-1.5 text-slate-400 hover:text-white">
-                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                    <span>Muro (<span id="contador-nav-desktop">0</span>)</span>
-                </button>
-                <button onclick="cambiarVista('publicar')" id="nav-desktop-publicar" class="px-4 py-2 rounded-xl font-medium transition flex items-center gap-1.5 text-slate-400 hover:text-white">
-                    <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
-                    <span>Publicar Aviso</span>
-                </button>
-            </nav>
-
-            <!-- Estado de conexión y Perfil / Login -->
-            <div class="flex items-center gap-3">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950 border border-slate-800 text-[11px]">
-                    <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="cloud-status-text" class="text-slate-300 font-medium">Sincronización en vivo</span>
-                </div>
-
-                <!-- Botón de autenticación con Google / Perfil de usuario -->
-                <div id="auth-container-header" class="flex items-center">
-                    <button type="button" onclick="iniciarSesionGoogle()" id="btn-login-google" class="bg-white hover:bg-slate-100 text-slate-900 font-black text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 shadow-lg transition active:scale-95">
-                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.67v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.16z"/>
-                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/>
-                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                        </svg>
-                        <span class="hidden sm:inline">Ingresar con Google</span>
-                        <span class="sm:hidden">Ingresar</span>
-                    </button>
-
-                    <div id="user-profile-header" class="hidden items-center gap-2 bg-slate-950 border border-slate-800 p-1 pl-2.5 rounded-2xl">
-                        <img id="user-avatar-header" src="" alt="Avatar" class="w-6 h-6 rounded-full object-cover border border-slate-700">
-                        <div class="flex flex-col text-left leading-tight">
-                            <span id="user-name-header" class="text-xs font-bold text-white max-w-[120px] truncate hidden sm:inline"></span>
-                            <span id="user-badge-header" class="text-[9px] font-black text-slate-400 hidden sm:inline">Estudiante</span>
-                        </div>
-                        <button type="button" onclick="cerrarSesionGoogle()" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-xl hover:bg-slate-900 transition" title="Cerrar sesión">
-                            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <button onclick="cambiarVista('publicar')" class="md:hidden bg-gradient-to-r from-pink-500 to-indigo-600 hover:opacity-90 text-white font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-lg active:scale-95 transition">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
-                    <span>Publicar</span>
-                </button>
-            </div>
-
-        </div>
-    </header>
-
-    <!-- Cinta de Moderador Automático -->
-    <div id="banner-moderador" class="hidden bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-slate-950 px-4 py-2 text-xs font-black shadow-md sticky top-[61px] z-30">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i data-lucide="shield-check" class="w-4 h-4 shrink-0"></i>
-                <span id="banner-moderador-texto">MODO ADMINISTRADOR AUTOMÁTICO ACTIVO: Tienes permisos para moderar cualquier aviso o comentario</span>
-            </div>
-            <button onclick="desactivarModerador()" class="bg-slate-950 text-amber-300 hover:bg-slate-900 px-3 py-1 rounded-lg text-[11px] font-bold transition ml-2 shrink-0">
-                Ocultar barra
-            </button>
-        </div>
-    </div>
-
-    <!-- =================================================================
-         CONTENIDO PRINCIPAL
-         ================================================================= -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 pb-28 md:pb-12">
-
-        <!-- PANTALLA 1: INICIO -->
-        <section id="vista-inicio" class="space-y-6 animate-fade">
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border border-indigo-700/40 p-6 md:p-10 shadow-2xl">
-                <div class="relative z-10 max-w-2xl space-y-3">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-bold text-pink-300">
-                        <span>🤝 Comunidad Solidaria Escolar</span>
-                    </div>
-                    <h2 class="text-2xl md:text-4xl font-black text-white tracking-tight leading-tight">
-                        ¿Perdiste tu polerón, calculadora o pase TNE?
-                    </h2>
-                    <p class="text-xs md:text-sm text-indigo-200/90 leading-relaxed">
-                        Revisa los reportes del colegio o publica lo que encontraste en el patio, salas o gimnasio para devolverlo a su dueño con tu identidad verificada.
-                    </p>
-
-                    <div class="pt-2 flex flex-wrap gap-2.5">
-                        <button onclick="irAPublicarConTipo('Perdido')" class="bg-rose-500 hover:bg-rose-400 text-white font-extrabold text-xs md:text-sm px-4 py-3 rounded-2xl flex items-center gap-2 shadow-lg transition active:scale-95">
-                            <span>🚨 ¡Se me perdió algo!</span>
-                        </button>
-                        <button onclick="irAPublicarConTipo('Encontrado')" class="bg-white hover:bg-indigo-50 text-slate-950 font-black text-xs md:text-sm px-4 py-3 rounded-2xl flex items-center gap-2 shadow-lg transition active:scale-95">
-                            <span>👀 ¡Encontré un objeto!</span>
-                        </button>
-                        <button onclick="cambiarVista('muro')" class="bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-700 font-bold text-xs md:text-sm px-4 py-3 rounded-2xl transition">
-                            Explorar muro completo →
-                        </button>
-                    </div>
-                </div>
-
-                <div class="absolute -right-8 -bottom-10 text-[130px] opacity-15 pointer-events-none select-none">
-                    🎒
-                </div>
-            </div>
-
-            <!-- Estadísticas -->
-            <div class="grid grid-cols-3 gap-3 md:gap-5">
-                <div onclick="filtrarDesdeInicio('Perdido')" class="cursor-pointer bg-slate-900/90 border border-rose-500/30 hover:border-rose-500/60 p-4 rounded-3xl transition group text-center md:text-left md:flex md:items-center md:gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl mx-auto md:mx-0 group-hover:scale-110 transition shrink-0">
-                        🚨
-                    </div>
-                    <div>
-                        <p id="stat-perdidos" class="text-2xl md:text-3xl font-black text-rose-400 leading-none">0</p>
-                        <p class="text-[11px] md:text-xs font-bold text-slate-400 mt-1">Buscando dueño</p>
-                    </div>
-                </div>
-
-                <div onclick="filtrarDesdeInicio('Encontrado')" class="cursor-pointer bg-slate-900/90 border border-emerald-500/30 hover:border-emerald-500/60 p-4 rounded-3xl transition group text-center md:text-left md:flex md:items-center md:gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mx-auto md:mx-0 group-hover:scale-110 transition shrink-0">
-                        👀
-                    </div>
-                    <div>
-                        <p id="stat-encontrados" class="text-2xl md:text-3xl font-black text-emerald-400 leading-none">0</p>
-                        <p class="text-[11px] md:text-xs font-bold text-slate-400 mt-1">Objetos hallados</p>
-                    </div>
-                </div>
-
-                <div onclick="filtrarDesdeInicio('Recuperado')" class="cursor-pointer bg-slate-900/90 border border-amber-500/30 hover:border-amber-500/60 p-4 rounded-3xl transition group text-center md:text-left md:flex md:items-center md:gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mx-auto md:mx-0 group-hover:scale-110 transition shrink-0">
-                        🎉
-                    </div>
-                    <div>
-                        <p id="stat-recuperados" class="text-2xl md:text-3xl font-black text-amber-400 leading-none">0</p>
-                        <p class="text-[11px] md:text-xs font-bold text-slate-400 mt-1">Recuperados</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Filtros rápidos por sector -->
-            <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-3xl space-y-3">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xs md:text-sm font-extrabold uppercase tracking-wider text-indigo-300 flex items-center gap-2">
-                        <i data-lucide="map-pin" class="w-4 h-4 text-pink-400"></i>
-                        <span>Filtro rápido por sector del colegio</span>
-                    </h3>
-                    <span class="text-[11px] text-slate-400">Selecciona un lugar</span>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="filtrarPorLugar('Inspectoría')" class="bg-slate-950 hover:bg-indigo-600/30 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-300 transition">🏢 Inspectoría</button>
-                    <button onclick="filtrarPorLugar('Cancha')" class="bg-slate-950 hover:bg-indigo-600/30 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-300 transition">⚽ Cancha / Graderías</button>
-                    <button onclick="filtrarPorLugar('Casino')" class="bg-slate-950 hover:bg-indigo-600/30 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-300 transition">🥪 Casino / Kiosco</button>
-                    <button onclick="filtrarPorLugar('Gimnasio')" class="bg-slate-950 hover:bg-indigo-600/30 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-300 transition">🏀 Gimnasio</button>
-                    <button onclick="filtrarPorLugar('Sala')" class="bg-slate-950 hover:bg-indigo-600/30 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-300 transition">🪑 Salas de Clases</button>
-                    <button onclick="filtrarPorLugar('Baño')" class="bg-slate-950 hover:bg-indigo-600/30 border border-slate-800 hover:border-indigo-500/40 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-300 transition">🚰 Baños</button>
-                </div>
-            </div>
-
-            <!-- Últimos reportes -->
-            <div class="space-y-3">
-                <div class="flex justify-between items-center px-1">
-                    <h3 class="text-xs md:text-sm font-extrabold uppercase tracking-wider text-slate-300">
-                        ⚡ Últimos reportes en vivo
-                    </h3>
-                    <button onclick="cambiarVista('muro')" class="text-xs font-bold text-pink-400 hover:underline">
-                        Ver todos los avisos →
-                    </button>
-                </div>
-                <div id="contenedor-recientes-inicio" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                </div>
-            </div>
-        </section>
-
-        <!-- PANTALLA 2: EL MURO -->
-        <section id="vista-muro" class="hidden space-y-5 animate-fade">
-            <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-3xl space-y-3.5">
-                <div class="flex flex-col sm:flex-row gap-2.5">
-                    <div class="relative flex-1">
-                        <input 
-                            type="text" 
-                            id="input-buscador" 
-                            oninput="renderizarMuro()" 
-                            placeholder="🔍 Buscar por objeto, curso, lugar (Ej: polerón, Casio, 8°B, llaves, TNE)..." 
-                            class="w-full bg-slate-950 border border-slate-700 focus:border-pink-500 rounded-2xl pl-4 pr-10 py-3 text-xs md:text-sm text-white placeholder-slate-400 outline-none transition"
-                        >
-                        <button onclick="limpiarFiltros()" id="btn-limpiar-busqueda" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-bold">✕</button>
-                    </div>
-                    <button onclick="cambiarVista('publicar')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs md:text-sm px-5 py-3 rounded-2xl flex items-center justify-center gap-1.5 transition shrink-0">
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                        <span>Publicar</span>
-                    </button>
-                </div>
-
-                <div class="flex flex-wrap items-center justify-between gap-2 border-t border-slate-800 pt-3">
-                    <div class="grid grid-cols-4 gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800 w-full sm:w-auto">
-                        <button onclick="cambiarFiltroEstado('Todos')" id="tab-estado-Todos" class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-indigo-600 text-white transition">Todos</button>
-                        <button onclick="cambiarFiltroEstado('Perdido')" id="tab-estado-Perdido" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">🚨 Perdidos</button>
-                        <button onclick="cambiarFiltroEstado('Encontrado')" id="tab-estado-Encontrado" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">👀 Hallados</button>
-                        <button onclick="cambiarFiltroEstado('Recuperado')" id="tab-estado-Recuperado" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">🎉 Devueltos</button>
-                    </div>
-                    <span id="label-conteo-filtrados" class="text-xs text-slate-400 font-semibold px-1">Mostrando 0 avisos</span>
-                </div>
-            </div>
-
-            <div id="muro-contenedor-tarjetas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            </div>
-        </section>
-
-        <!-- PANTALLA 3: FORMULARIO PUBLICAR -->
-        <section id="vista-publicar" class="hidden max-w-3xl mx-auto space-y-5 animate-fade">
-            <div class="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-3xl space-y-5 shadow-xl">
-                <div>
-                    <h2 class="text-xl md:text-2xl font-black text-white flex items-center gap-2">
-                        <span>📢 Publicar Aviso en el Muro</span>
-                    </h2>
-                    <p class="text-xs md:text-sm text-slate-400 mt-1">
-                        Elige si perdiste algo que estás buscando o si encontraste un objeto para ayudar al dueño a recuperarlo.
-                    </p>
-                </div>
-
-                <form onsubmit="publicarObjeto(event)" class="space-y-4">
-                    <!-- Tarjeta de Identidad Verificada Google -->
-                    <div id="banner-auth-publicar" class="p-4 rounded-2xl border transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-950 border-slate-800">
-                        <div class="flex items-center gap-3">
-                            <img id="publicar-avatar" src="https://placehold.co/100x100/1e293b/94a3b8?text=Google" class="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0">
-                            <div>
-                                <p id="publicar-auth-nombre" class="text-xs md:text-sm font-bold text-white">Identificación requerida</p>
-                                <p id="publicar-auth-correo" class="text-[11px] text-slate-400">Inicia sesión con Google para publicar con tu identidad verificada</p>
-                            </div>
-                        </div>
-                        <button type="button" onclick="iniciarSesionGoogle()" id="btn-login-publicar" class="w-full sm:w-auto bg-white hover:bg-slate-100 text-slate-950 font-black text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 shrink-0 shadow transition active:scale-95">
-                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.67v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.16z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-                            <span>Conectar con Google</span>
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <button type="button" onclick="seleccionarTipoFormulario('Perdido')" id="btn-form-perdido" class="py-3.5 px-4 rounded-2xl border-2 border-rose-500 bg-rose-500/20 text-rose-200 font-black text-xs md:text-sm flex flex-col items-center gap-1 transition shadow-lg">
-                            <span class="text-2xl">🚨</span>
-                            <span>¡LO PERDÍ!</span>
-                            <span class="text-[10px] md:text-xs font-normal opacity-80">Busco algo que se me quedó</span>
-                        </button>
-                        <button type="button" onclick="seleccionarTipoFormulario('Encontrado')" id="btn-form-encontrado" class="py-3.5 px-4 rounded-2xl border-2 border-slate-700 bg-slate-950 text-slate-400 font-bold text-xs md:text-sm flex flex-col items-center gap-1 transition">
-                            <span class="text-2xl">👀</span>
-                            <span>¡LO ENCONTRÉ!</span>
-                            <span class="text-[10px] md:text-xs font-normal opacity-80">Quiero devolverlo a su dueño</span>
-                        </button>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs md:text-sm font-extrabold text-indigo-200 mb-1.5">
-                            ¿Qué objeto es y cómo se reconoce? *
-                        </label>
-                        <input type="text" id="form-titulo" required maxlength="80" placeholder="Ej: Polerón azul marino talla M con nombre bordado en la etiqueta" class="w-full bg-slate-950 border border-slate-700 focus:border-pink-500 rounded-xl px-4 py-3 text-xs md:text-sm text-white outline-none transition">
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div>
-                            <label class="block text-xs md:text-sm font-extrabold text-indigo-200 mb-1.5">Categoría</label>
-                            <select id="form-categoria" onchange="actualizarFotoPorCategoria()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-3 text-xs md:text-sm text-white outline-none">
-                                <option value="🧥 Uniforme / Ropa">🧥 Uniforme / Ropa</option>
-                                <option value="📱 Celular / Audífonos">📱 Celular / Audífonos</option>
-                                <option value="📐 Calculadora / Útiles">📐 Calculadora / Útiles</option>
-                                <option value="🪪 Pase TNE / Carnet">🪪 Pase TNE / Carnet</option>
-                                <option value="🍼 Botella / Lonchera">🍼 Botella / Lonchera</option>
-                                <option value="🔑 Llaves / Lentes">🔑 Llaves / Lentes</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs md:text-sm font-extrabold text-indigo-200 mb-1.5">¿Dónde fue visto? *</label>
-                            <input type="text" id="form-lugar" required maxlength="50" placeholder="Ej: Cancha de pasto / Graderías" class="w-full bg-slate-950 border border-slate-700 focus:border-pink-500 rounded-xl px-4 py-3 text-xs md:text-sm text-white outline-none transition">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label id="label-custodia" class="block text-xs md:text-sm font-extrabold text-indigo-200 mb-1.5">
-                            ¿Dónde te avisan si alguien lo ve? *
-                        </label>
-                        <select id="form-custodia" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-3 text-xs md:text-sm text-white outline-none">
-                            <option value="Avisar aquí en comentarios o ir a mi sala">💬 Avisar aquí en comentarios o ir a mi sala</option>
-                            <option value="Está guardado en Inspectoría">🏢 Está guardado en Inspectoría</option>
-                            <option value="Lo tengo yo (lo entrego en el recreo)">🤝 Lo tengo yo (lo entrego en el recreo)</option>
-                            <option value="Está en Portería / Recepción">🚪 Está en Portería / Recepción</option>
-                            <option value="Quedó en el Kiosco / Casino">🥪 Quedó en el Kiosco / Casino</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs md:text-sm font-extrabold text-indigo-200 mb-1.5">Tu Curso o Rol en el Colegio *</label>
-                        <input type="text" id="form-curso" required maxlength="35" placeholder="Ej: 2° Medio A (o Docente / Inspectoría)" class="w-full bg-slate-950 border border-slate-700 focus:border-pink-500 rounded-xl px-4 py-3 text-xs md:text-sm text-white outline-none transition">
-                    </div>
-
-                    <!-- FOTO -->
-                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-3">
-                        <div class="flex justify-between items-center">
-                            <label class="text-xs md:text-sm font-extrabold text-pink-300 flex items-center gap-1.5">
-                                <i data-lucide="camera" class="w-4 h-4"></i>
-                                <span>Foto o Imagen del Objeto</span>
-                            </label>
-                            <span class="text-[11px] text-slate-400">Opcional</span>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row items-center gap-3.5">
-                            <div class="w-24 h-24 rounded-2xl bg-slate-900 border-2 border-dashed border-slate-700 flex items-center justify-center overflow-hidden shrink-0">
-                                <img id="img-preview" src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80" alt="Vista previa" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/0f172a/f472b6?text=Objeto'">
-                            </div>
-
-                            <div class="flex-1 space-y-2 w-full text-center sm:text-left">
-                                <label class="cursor-pointer inline-flex w-full sm:w-auto bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-400/40 text-indigo-200 font-bold text-xs py-2.5 px-4 rounded-xl items-center justify-center gap-2 transition">
-                                    <i data-lucide="upload" class="w-4 h-4"></i>
-                                    <span>Subir foto desde PC o Celular</span>
-                                    <input type="file" id="input-archivo-foto" accept="image/*" onchange="procesarFotoArchivo(event)" class="hidden">
-                                </label>
-                                <p class="text-[11px] text-slate-400">
-                                    O elige una imagen rápida de referencia de la galería escolar:
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-6 gap-2 pt-1">
-                            <button type="button" onclick="elegirFotoRapida('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center text-lg" title="Ropa">🧥</button>
-                            <button type="button" onclick="elegirFotoRapida('https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=400&q=80')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center text-lg" title="Calculadora / Útiles">📐</button>
-                            <button type="button" onclick="elegirFotoRapida('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center text-lg" title="Celular">📱</button>
-                            <button type="button" onclick="elegirFotoRapida('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center text-lg" title="Audífonos">🎧</button>
-                            <button type="button" onclick="elegirFotoRapida('https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=400&q=80')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center text-lg" title="Botella">🍼</button>
-                            <button type="button" onclick="elegirFotoRapida('https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=400&q=80')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center text-lg" title="Llaves / TNE">🔑</button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="w-full bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 hover:opacity-95 text-white font-black py-3.5 rounded-2xl text-xs md:text-sm shadow-xl transition active:scale-98">
-                        🚀 Publicar Aviso en el Muro Escolar
-                    </button>
-                </form>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- MODAL DETALLE Y COMENTARIOS -->
-    <div id="modal-detalle" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade">
-        <div class="bg-slate-900 border border-slate-800 sm:rounded-3xl rounded-t-3xl w-full max-w-3xl h-[88vh] sm:h-auto sm:max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
-            <div class="px-5 py-3.5 border-b border-slate-800 flex justify-between items-center shrink-0">
-                <div class="flex items-center gap-2">
-                    <span id="detalle-badge-estado" class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full"></span>
-                    <span id="detalle-categoria" class="text-xs text-slate-400 font-bold"></span>
-                </div>
-                <button onclick="cerrarModalDetalle()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold flex items-center justify-center text-sm transition">
-                    ✕
-                </button>
-            </div>
-
-            <div class="flex-1 overflow-y-auto no-scrollbar p-5 grid grid-cols-1 md:grid-cols-12 gap-5">
-                <div class="md:col-span-5 space-y-4">
-                    <div class="rounded-2xl overflow-hidden aspect-video md:aspect-square bg-slate-950 border border-slate-800 relative">
-                        <img id="detalle-img" src="" alt="Foto objeto" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/0f172a/f472b6?text=Objeto'">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <h3 id="detalle-titulo" class="text-base font-black text-white leading-snug"></h3>
-                        <p class="text-xs text-pink-300 font-bold flex items-center gap-1.5">
-                            <span>📍 Lugar visto:</span> <span id="detalle-lugar" class="text-white font-medium"></span>
-                        </p>
-                        <p class="text-xs text-emerald-300 font-bold flex items-center gap-1.5">
-                            <span>📦 Dónde está:</span> <span id="detalle-custodia" class="text-slate-200 font-medium"></span>
-                        </p>
-                        <p class="text-[11px] text-slate-400">
-                            👤 Reportado por: <span id="detalle-autor" class="text-slate-200 font-bold"></span>
-                        </p>
-                    </div>
-
-                    <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl flex items-center justify-between gap-2">
-                        <div class="text-xs">
-                            <p class="font-bold text-white">¿Apareció el dueño?</p>
-                            <p class="text-[10px] text-slate-400">Actualiza el estado para avisar al colegio</p>
-                        </div>
-                        <button onclick="cambiarEstadoRecuperadoActual()" id="btn-marcar-recuperado" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs px-3 py-2 rounded-xl transition shadow shrink-0">
-                            🎉 ¡Ya se entregó!
-                        </button>
-                    </div>
-                </div>
-
-                <div class="md:col-span-7 flex flex-col space-y-3 md:border-l md:border-slate-800 md:pl-5">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-xs font-black uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
-                            <i data-lucide="message-square" class="w-4 h-4 text-pink-400"></i>
-                            <span>Pistas y Comentarios (<span id="detalle-num-comentarios">0</span>)</span>
-                        </h4>
-                        <span class="text-[10px] text-slate-400">En tiempo real</span>
-                    </div>
-
-                    <div class="flex flex-wrap gap-1.5">
-                        <button type="button" onclick="rellenarComentarioRapido('¡Es mío! En el próximo recreo paso a tu sala a buscarlo, ¡muchas gracias!')" class="bg-indigo-500/15 hover:bg-indigo-500/30 border border-indigo-500/30 text-indigo-200 text-[10px] font-bold px-2.5 py-1 rounded-full transition">
-                            ✋ "¡Es mío! Voy en el recreo"
-                        </button>
-                        <button type="button" onclick="rellenarComentarioRapido('¡Yo sé de quién es! Es de un compañero de mi curso, ya le avisé.')" class="bg-pink-500/15 hover:bg-pink-500/30 border border-pink-500/30 text-pink-200 text-[10px] font-bold px-2.5 py-1 rounded-full transition">
-                            👀 "Yo sé de quién es"
-                        </button>
-                        <button type="button" onclick="rellenarComentarioRapido('Lo vi recién en Inspectoría para que pregunten allá.')" class="bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-200 text-[10px] font-bold px-2.5 py-1 rounded-full transition">
-                            🏢 "Está en Inspectoría"
-                        </button>
-                    </div>
-
-                    <div id="detalle-lista-comentarios" class="flex-1 space-y-2 max-h-60 md:max-h-72 overflow-y-auto pr-1">
-                    </div>
-
-                    <form onsubmit="enviarComentario(event)" class="pt-2 border-t border-slate-800 space-y-2 shrink-0">
-                        <!-- Estado de usuario en comentarios -->
-                        <div id="banner-auth-comentario" class="hidden items-center justify-between p-2 rounded-xl bg-slate-950 border border-slate-800 text-[11px]">
-                            <span class="text-slate-400">Comentando como: <b id="comentario-nombre-google" class="text-white"></b></span>
-                            <span class="text-emerald-400 font-bold flex items-center gap-1">
-                                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Verificado
-                            </span>
-                        </div>
-
-                        <!-- Si no ha iniciado sesión con Google -->
-                        <div id="bloque-login-comentario" class="p-3 bg-slate-950 border border-dashed border-slate-800 rounded-xl text-center space-y-2">
-                            <p class="text-xs text-slate-300">Inicia sesión con Google para comentar y verificar tu identidad</p>
-                            <button type="button" onclick="iniciarSesionGoogle()" class="inline-flex items-center gap-2 bg-white text-slate-950 font-black text-xs px-4 py-2 rounded-xl shadow hover:bg-slate-100 transition active:scale-95">
-                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.67v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.16z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-                                <span>Iniciar sesión con Google</span>
-                            </button>
-                        </div>
-
-                        <!-- Si ya inició sesión -->
-                        <div id="bloque-inputs-comentario" class="hidden space-y-2">
-                            <input type="text" id="comentario-texto" required maxlength="140" placeholder="Escribe una pista o reclama el objeto..." class="w-full bg-slate-950 border border-slate-700 focus:border-pink-500 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none">
-                            <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-pink-500 hover:opacity-95 text-white font-black py-2.5 rounded-xl text-xs shadow transition">
-                                💬 Enviar Comentario Verificado
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL PIN MODERADOR (RESPALDO OPCIONAL) -->
-    <div id="modal-pin" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4 animate-fade">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 w-full max-w-xs text-center shadow-2xl space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
-                <i data-lucide="lock" class="w-6 h-6"></i>
-            </div>
-            <div>
-                <h3 class="text-base font-black text-white">Acceso de Gestión</h3>
-                <p class="text-xs text-slate-400 mt-1">
-                    Ingresa el PIN de seguridad de respaldo para habilitar la moderación de avisos y comentarios.
-                </p>
-            </div>
-            <form onsubmit="verificarPinDocente(event)" class="space-y-3">
-                <input 
-                    type="password" 
-                    id="input-pin-docente" 
-                    maxlength="8" 
-                    placeholder="••••" 
-                    class="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-xl py-3 text-center text-lg font-black tracking-widest text-amber-300 outline-none"
-                >
-                <div class="grid grid-cols-2 gap-2">
-                    <button type="button" onclick="cerrarModalPin()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-2.5 rounded-xl text-xs">
-                        Ingresar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- FOOTER PC -->
-    <footer class="hidden md:block bg-slate-900 border-t border-slate-800 py-6 px-4 text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p>🎒 ¡Lo Encontré! — Red de Ayuda entre Compañeros</p>
-            <div class="flex items-center gap-4">
-                <span>Normas de Convivencia Escolar Activas</span>
-                <button onclick="abrirModalPin()" class="text-slate-600 hover:text-slate-400 transition p-1" title="Acceso PIN Respaldo">
-                    <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                </button>
-            </div>
-        </div>
-    </footer>
-
-    <!-- BARRA INFERIOR MÓVIL -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-6 py-2.5 grid grid-cols-3 text-center z-30">
-        <button onclick="cambiarVista('inicio')" id="nav-mobile-inicio" class="flex flex-col items-center gap-0.5 text-pink-400 font-extrabold text-[11px] transition">
-            <i data-lucide="compass" class="w-5 h-5"></i>
-            <span>Radar</span>
-        </button>
-        <button onclick="cambiarVista('muro')" id="nav-mobile-muro" class="flex flex-col items-center gap-0.5 text-slate-400 font-medium text-[11px] transition">
-            <i data-lucide="layout-grid" class="w-5 h-5"></i>
-            <span>Muro (<span id="contador-nav-mobile">0</span>)</span>
-        </button>
-        <button onclick="cambiarVista('publicar')" id="nav-mobile-publicar" class="flex flex-col items-center gap-0.5 text-slate-400 font-medium text-[11px] transition">
-            <i data-lucide="plus-circle" class="w-5 h-5"></i>
-            <span>Publicar</span>
-        </button>
-    </nav>
-
-    <!-- =================================================================
-         LÓGICA JAVASCRIPT + GOOGLE SIGN-IN + FIREBASE v11.6.1
-         ================================================================= -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // ===============================================================
-        // 🔑 TUS LLAVES REALES DE FIREBASE CONECTADAS
-        // ===============================================================
-        const MI_FIREBASE_CONFIG = {
-            apiKey: "AIzaSyBDwRcHSmf-pJr8h3RUn3wXtgsfB8nhJJ0",
-            authDomain: "lo-encontre-colegio.firebaseapp.com",
-            projectId: "lo-encontre-colegio",
-            storageBucket: "lo-encontre-colegio.firebasestorage.app",
-            messagingSenderId: "1021284217007",
-            appId: "1:1021284217007:web:c5db629efb70b22fad645a"
-        };
-
-        // ===============================================================
-        // 👑 CORREOS CON ROL ADMINISTRADOR / DOCENTE AUTOMÁTICO
-        // Solo ingresa con Google con este correo y serás admin sin pedir PIN:
-        // ===============================================================
-        const CORREOS_ADMINISTRADORES = [
-            "juanfco.valencia@gmail.com"
-        ];
-
-        // Estado general
-        const PIN_DOCENTE = "2026"; // Respaldo opcional
-        let modoModerador = false;
-        let toquesLogo = 0;
-        let vistaActual = "inicio";
-        let filtroEstadoActual = "Todos";
-        let tipoFormularioActual = "Perdido";
-        let fotoSeleccionadaURL = "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80";
-        let idObjetoAbiertoEnModal = null;
-        let idElementoAEliminar = null;
-        let tipoElementoAEliminar = null;
-        let idPadreComentarioAEliminar = null;
-
-        const PALABRAS_BLOQUEADAS = ["tonto", "idiota", "estupido", "weon", "wn", "ctm", "mierda", "culiao", "feo", "robo", "ladron"];
-
-        let objetosMuro = [];
-        let db = null;
-        let auth = null;
-        let currentUser = null;
-        let nubeConectada = false;
-
-        function esUsuarioAdmin(email) {
-            if (!email) return false;
-            const emailNorm = email.trim().toLowerCase();
-            // 1. En la lista de correos administradores
-            if (CORREOS_ADMINISTRADORES.some(c => c.trim().toLowerCase() === emailNorm)) {
-                return true;
-            }
-            // 2. O vinculado previamente con el PIN en este navegador
-            try {
-                const vinculados = JSON.parse(localStorage.getItem('admins_vinculados_google') || '[]');
-                if (vinculados.includes(emailNorm)) return true;
-            } catch (e) {}
-            return false;
-        }
-
-        async function iniciarConexionNube() {
-            try {
-                let configFinal = MI_FIREBASE_CONFIG;
-                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                    configFinal = JSON.parse(__firebase_config);
-                }
-
-                if (configFinal) {
-                    const app = initializeApp(configFinal);
-                    auth = getAuth(app);
-                    db = getFirestore(app);
-
-                    onAuthStateChanged(auth, (user) => {
-                        currentUser = user;
-                        if (user && esUsuarioAdmin(user.email)) {
-                            modoModerador = true;
-                        } else {
-                            modoModerador = false;
-                        }
-                        actualizarInterfazAuth(user);
-                        renderizarTodo();
-                    });
-
-                    suscribirMuroTiempoReal();
-                } else {
-                    renderizarTodo();
-                }
-            } catch (err) {
-                console.warn("Aviso Firebase:", err);
-                renderizarTodo();
-            }
-        }
-
-        async function iniciarSesionGoogle() {
-            if (!auth) return;
-            try {
-                const provider = new GoogleAuthProvider();
-                provider.setCustomParameters({ prompt: 'select_account' });
-                const result = await signInWithPopup(auth, provider);
-                const esAdmin = esUsuarioAdmin(result.user.email);
-                if (esAdmin) {
-                    modoModerador = true;
-                    mostrarToast(`¡Bienvenido Administrador, ${result.user.displayName || "Profesor"}!`, "👑");
-                } else {
-                    mostrarToast(`¡Hola, ${result.user.displayName || "estudiante"}!`, "👋");
-                }
-                actualizarInterfazAuth(result.user);
-                renderizarTodo();
-            } catch (err) {
-                console.error("Error Google Auth:", err);
-                if (err.code === 'auth/popup-blocked') {
-                    mostrarToast("Tu navegador bloqueó la ventana emergente de Google", "⚠️");
-                } else if (err.code !== 'auth/popup-closed-by-user') {
-                    mostrarToast("No se pudo iniciar sesión con Google", "❌");
-                }
-            }
-        }
-
-        async function cerrarSesionGoogle() {
-            if (!auth) return;
-            try {
-                await signOut(auth);
-                modoModerador = false;
-                mostrarToast("Sesión cerrada correctamente", "👋");
-                actualizarInterfazAuth(null);
-                renderizarTodo();
-            } catch (err) {
-                console.error("Error cerrando sesión:", err);
-            }
-        }
-
-        function actualizarInterfazAuth(user) {
-            const btnLoginHeader = document.getElementById('btn-login-google');
-            const userProfileHeader = document.getElementById('user-profile-header');
-            const userAvatarHeader = document.getElementById('user-avatar-header');
-            const userNameHeader = document.getElementById('user-name-header');
-            const userBadgeHeader = document.getElementById('user-badge-header');
-            const bannerModerador = document.getElementById('banner-moderador');
-            const bannerModTexto = document.getElementById('banner-moderador-texto');
-
-            const publicarAvatar = document.getElementById('publicar-avatar');
-            const publicarAuthNombre = document.getElementById('publicar-auth-nombre');
-            const publicarAuthCorreo = document.getElementById('publicar-auth-correo');
-            const btnLoginPublicar = document.getElementById('btn-login-publicar');
-
-            const bannerAuthComentario = document.getElementById('banner-auth-comentario');
-            const comentarioNombreGoogle = document.getElementById('comentario-nombre-google');
-            const bloqueLoginComentario = document.getElementById('bloque-login-comentario');
-            const bloqueInputsComentario = document.getElementById('bloque-inputs-comentario');
-
-            if (user) {
-                const esAdmin = esUsuarioAdmin(user.email);
-
-                // Header
-                if (btnLoginHeader) btnLoginHeader.classList.add('hidden');
-                if (userProfileHeader) {
-                    userProfileHeader.classList.remove('hidden');
-                    userProfileHeader.classList.add('flex');
-                }
-                if (userAvatarHeader) userAvatarHeader.src = user.photoURL || 'https://placehold.co/100x100/1e293b/ec4899?text=U';
-                if (userNameHeader) userNameHeader.innerText = user.displayName || user.email || 'Conectado';
-                
-                if (userBadgeHeader) {
-                    if (esAdmin) {
-                        userBadgeHeader.innerText = "👑 Administrador";
-                        userBadgeHeader.className = "text-[9px] font-black text-amber-400 hidden sm:inline";
-                    } else {
-                        userBadgeHeader.innerText = "Estudiante Verificado";
-                        userBadgeHeader.className = "text-[9px] font-bold text-emerald-400 hidden sm:inline";
-                    }
-                }
-
-                // Banner moderador superior
-                if (bannerModerador) {
-                    if (esAdmin && modoModerador) {
-                        bannerModerador.classList.remove('hidden');
-                        if (bannerModTexto) {
-                            bannerModTexto.innerText = `MODO ADMINISTRADOR AUTOMÁTICO ACTIVO (${user.email}) - Permisos de eliminación habilitados`;
-                        }
-                    } else {
-                        bannerModerador.classList.add('hidden');
-                    }
-                }
-
-                // Formulario Publicar
-                if (publicarAvatar) publicarAvatar.src = user.photoURL || 'https://placehold.co/100x100/1e293b/ec4899?text=U';
-                if (publicarAuthNombre) publicarAuthNombre.innerText = user.displayName || 'Usuario Google';
-                if (publicarAuthCorreo) publicarAuthCorreo.innerText = `✅ Identidad verificada (${user.email})`;
-                if (btnLoginPublicar) btnLoginPublicar.classList.add('hidden');
-
-                // Modal Comentarios
-                if (bannerAuthComentario) {
-                    bannerAuthComentario.classList.remove('hidden');
-                    bannerAuthComentario.classList.add('flex');
-                }
-                if (comentarioNombreGoogle) comentarioNombreGoogle.innerText = user.displayName || user.email;
-                if (bloqueLoginComentario) bloqueLoginComentario.classList.add('hidden');
-                if (bloqueInputsComentario) bloqueInputsComentario.classList.remove('hidden');
-            } else {
-                // Header
-                if (btnLoginHeader) btnLoginHeader.classList.remove('hidden');
-                if (userProfileHeader) {
-                    userProfileHeader.classList.add('hidden');
-                    userProfileHeader.classList.remove('flex');
-                }
-                if (bannerModerador) bannerModerador.classList.add('hidden');
-
-                // Formulario Publicar
-                if (publicarAvatar) publicarAvatar.src = 'https://placehold.co/100x100/1e293b/94a3b8?text=Google';
-                if (publicarAuthNombre) publicarAuthNombre.innerText = 'Identificación requerida';
-                if (publicarAuthCorreo) publicarAuthCorreo.innerText = 'Inicia sesión con Google para publicar con tu identidad verificada';
-                if (btnLoginPublicar) btnLoginPublicar.classList.remove('hidden');
-
-                // Modal Comentarios
-                if (bannerAuthComentario) {
-                    bannerAuthComentario.classList.add('hidden');
-                    bannerAuthComentario.classList.remove('flex');
-                }
-                if (bloqueLoginComentario) bloqueLoginComentario.classList.remove('hidden');
-                if (bloqueInputsComentario) bloqueInputsComentario.classList.add('hidden');
-            }
-            lucide.createIcons();
-        }
-
-        // ===============================================================
-        // MODERACIÓN Y BORRADO SEGURO
-        // ===============================================================
-        function pedirConfirmacionBorrado(tipo, id, idPadre = null) {
-            idElementoAEliminar = id;
-            tipoElementoAEliminar = tipo;
-            idPadreComentarioAEliminar = idPadre;
-
-            const modal = document.getElementById('modal-confirmar-borrado');
-            const titulo = document.getElementById('titulo-modal-borrado');
-            const desc = document.getElementById('desc-modal-borrado');
-
-            if (tipo === 'objeto') {
-                titulo.innerText = "¿Eliminar este aviso del muro?";
-                desc.innerText = "Esta publicación se borrará de forma definitiva para todos los usuarios del colegio.";
-            } else {
-                titulo.innerText = "¿Eliminar este comentario?";
-                desc.innerText = "El mensaje será removido del hilo de conversación permanentemente.";
-            }
-
-            modal.classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function cerrarConfirmacionBorrado() {
-            idElementoAEliminar = null;
-            tipoElementoAEliminar = null;
-            idPadreComentarioAEliminar = null;
-            document.getElementById('modal-confirmar-borrado').classList.add('hidden');
-        }
-
-        async function ejecutarBorradoConfirmado() {
-            if (!idElementoAEliminar) return;
-
-            if (tipoElementoAEliminar === 'objeto') {
-                const idObj = idElementoAEliminar;
-                if (nubeConectada && db) {
-                    try {
-                        await deleteDoc(doc(db, 'objetos_perdidos_colegio', idObj));
-                    } catch (e) {
-                        console.error("Error borrando en nube:", e);
-                    }
-                }
-                objetosMuro = objetosMuro.filter(o => o.id !== idObj);
-                if (idObjetoAbiertoEnModal === idObj) {
-                    cerrarModalDetalle();
-                }
-                mostrarToast("Aviso eliminado por el administrador", "🗑️");
-            } else if (tipoElementoAEliminar === 'comentario') {
-                const idCom = idElementoAEliminar;
-                const idPadre = idPadreComentarioAEliminar;
-                const obj = objetosMuro.find(o => o.id === idPadre);
-
-                if (obj) {
-                    obj.comentarios = (obj.comentarios || []).filter(c => c.id !== idCom);
-                    if (nubeConectada && db) {
-                        try {
-                            const docRef = doc(db, 'objetos_perdidos_colegio', idPadre);
-                            await updateDoc(docRef, { comentariosJson: JSON.stringify(obj.comentarios) });
-                        } catch (e) {
-                            console.error("Error borrando comentario en nube:", e);
-                        }
-                    }
-                    if (idObjetoAbiertoEnModal === idPadre) {
-                        actualizarContenidoModalDetalle(idPadre);
-                    }
-                    mostrarToast("Comentario eliminado", "🗑️");
-                }
-            }
-
-            cerrarConfirmacionBorrado();
-            renderizarTodo();
-        }
-
-        async function cambiarEstadoRecuperadoActual() {
-            if (!idObjetoAbiertoEnModal) return;
-            const obj = objetosMuro.find(o => o.id === idObjetoAbiertoEnModal);
-            if (!obj) return;
-
-            const nuevoTipo = obj.tipo === 'Recuperado' ? 'Perdido' : 'Recuperado';
-            obj.tipo = nuevoTipo;
-
-            if (nubeConectada && db) {
-                try {
-                    const docRef = doc(db, 'objetos_perdidos_colegio', idObjetoAbiertoEnModal);
-                    await updateDoc(docRef, { tipo: nuevoTipo });
-                } catch (e) {
-                    console.error("Error actualizando estado:", e);
-                }
-            }
-
-            actualizarContenidoModalDetalle(idObjetoAbiertoEnModal);
-            renderizarTodo();
-            mostrarToast(nuevoTipo === 'Recuperado' ? "¡Objeto marcado como devuelto al dueño! 🎉" : "Aviso reabierto", "🎒");
-        }
-
-        function rellenarComentarioRapido(texto) {
-            const input = document.getElementById('comentario-texto');
-            if (input) {
-                input.value = texto;
-                input.focus();
-            }
-        }
-
-        function desactivarModerador() {
-            modoModerador = false;
-            document.getElementById('banner-moderador').classList.add('hidden');
-            renderizarTodo();
-            mostrarToast("Vista de moderación oculta", "👀");
-        }
-
-        function toqueSecretoLogo() {
-            toquesLogo++;
-            if (toquesLogo >= 3) {
-                toquesLogo = 0;
-                abrirModalPin();
-            }
-            setTimeout(() => { toquesLogo = 0; }, 2000);
-        }
-
-        function abrirModalPin() {
-            document.getElementById('modal-pin').classList.remove('hidden');
-            const input = document.getElementById('input-pin-docente');
-            if (input) {
-                input.value = '';
-                input.focus();
-            }
-            lucide.createIcons();
-        }
-
-        function cerrarModalPin() {
-            document.getElementById('modal-pin').classList.add('hidden');
-        }
-
-        function verificarPinDocente(e) {
-            e.preventDefault();
-            const pin = document.getElementById('input-pin-docente').value.trim();
-
-            if (pin === PIN_DOCENTE) {
-                modoModerador = true;
-                if (currentUser && currentUser.email) {
-                    try {
-                        const vinculados = JSON.parse(localStorage.getItem('admins_vinculados_google') || '[]');
-                        if (!vinculados.includes(currentUser.email.toLowerCase())) {
-                            vinculados.push(currentUser.email.toLowerCase());
-                            localStorage.setItem('admins_vinculados_google', JSON.stringify(vinculados));
-                        }
-                    } catch (err) {}
-                }
-                cerrarModalPin();
-                mostrarToast("¡Modo Administrador activado!", "👑");
-                actualizarInterfazAuth(currentUser);
-                renderizarTodo();
-            } else {
-                mostrarToast("PIN incorrecto", "❌");
-                document.getElementById('input-pin-docente').value = '';
-            }
-        }
-
-        function suscribirMuroTiempoReal() {
-            if (!db) return;
-
-            const colRef = collection(db, 'objetos_perdidos_colegio');
-
-            onSnapshot(colRef, (snapshot) => {
-                nubeConectada = true;
-                const dot = document.getElementById('cloud-status-dot');
-                if (dot) dot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
-                const txt = document.getElementById('cloud-status-text');
-                if (txt) txt.innerText = "Sincronización en vivo";
-
-                if (snapshot.empty) {
-                    objetosMuro = [];
-                    renderizarTodo();
-                    return;
-                }
-
-                const listaNube = [];
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    let comentarios = [];
-                    try {
-                        comentarios = data.comentariosJson ? JSON.parse(data.comentariosJson) : (data.comentarios || []);
-                    } catch (e) {
-                        comentarios = [];
-                    }
-                    listaNube.push({
-                        ...data,
-                        id: docSnap.id,
-                        comentarios
-                    });
-                });
-
-                listaNube.sort((a, b) => (b.creadoEn || 0) - (a.creadoEn || 0));
-                objetosMuro = listaNube;
-                renderizarTodo();
-
-                if (idObjetoAbiertoEnModal) {
-                    actualizarContenidoModalDetalle(idObjetoAbiertoEnModal);
-                }
-            }, (error) => {
-                console.error("Error Firestore Snapshot:", error);
-                renderizarTodo();
-            });
-        }
-
-        function mostrarToast(texto, icono = "✅") {
-            const toast = document.getElementById('custom-toast');
-            document.getElementById('toast-icon').innerText = icono;
-            document.getElementById('toast-text').innerText = texto;
-            toast.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-            toast.classList.add('opacity-100', 'scale-100');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-                toast.classList.remove('opacity-100', 'scale-100');
-            }, 2800);
-        }
-
-        function cambiarVista(vista) {
-            vistaActual = vista;
-            ['inicio', 'muro', 'publicar'].forEach(v => {
-                document.getElementById('vista-' + v).classList.add('hidden');
-                
-                const btnDesktop = document.getElementById('nav-desktop-' + v);
-                if (btnDesktop) {
-                    btnDesktop.className = v === vista 
-                        ? "px-4 py-2 rounded-xl font-bold transition flex items-center gap-1.5 text-pink-400 bg-slate-900 shadow"
-                        : "px-4 py-2 rounded-xl font-medium transition flex items-center gap-1.5 text-slate-400 hover:text-white";
-                }
-
-                const btnMobile = document.getElementById('nav-mobile-' + v);
-                if (btnMobile) {
-                    btnMobile.className = v === vista
-                        ? "flex flex-col items-center gap-0.5 text-pink-400 font-extrabold text-[11px] transition"
-                        : "flex flex-col items-center gap-0.5 text-slate-400 font-medium text-[11px] transition";
-                }
-            });
-
-            document.getElementById('vista-' + vista).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            lucide.createIcons();
-        }
-
-        function irAPublicarConTipo(tipo) {
-            seleccionarTipoFormulario(tipo);
-            cambiarVista('publicar');
-        }
-
-        function filtrarDesdeInicio(estado) {
-            cambiarFiltroEstado(estado);
-            cambiarVista('muro');
-        }
-
-        function filtrarPorLugar(lugar) {
-            document.getElementById('input-buscador').value = lugar;
-            cambiarFiltroEstado('Todos');
-            cambiarVista('muro');
-        }
-
-        function limpiarFiltros() {
-            document.getElementById('input-buscador').value = '';
-            cambiarFiltroEstado('Todos');
-        }
-
-        function cambiarFiltroEstado(estado) {
-            filtroEstadoActual = estado;
-            ['Todos', 'Perdido', 'Encontrado', 'Recuperado'].forEach(est => {
-                const btn = document.getElementById('tab-estado-' + est);
-                if (btn) {
-                    btn.className = est === estado
-                        ? "px-3 py-1.5 rounded-xl text-xs font-extrabold bg-indigo-600 text-white transition shadow"
-                        : "px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition";
-                }
-            });
-            renderizarMuro();
-        }
-
-        function renderizarTodo() {
-            const countPerdidos = objetosMuro.filter(o => o.tipo === 'Perdido').length;
-            const countEncontrados = objetosMuro.filter(o => o.tipo === 'Encontrado').length;
-            const countRecuperados = objetosMuro.filter(o => o.tipo === 'Recuperado').length;
-
-            document.getElementById('stat-perdidos').innerText = countPerdidos;
-            document.getElementById('stat-encontrados').innerText = countEncontrados;
-            document.getElementById('stat-recuperados').innerText = countRecuperados;
-
-            const total = objetosMuro.length;
-            document.getElementById('contador-nav-desktop').innerText = total;
-            document.getElementById('contador-nav-mobile').innerText = total;
-
-            renderizarRecientesInicio();
-            renderizarMuro();
-        }
-
-        function obtenerBadge(tipo) {
-            if (tipo === 'Perdido') {
-                return { texto: '🚨 Lo Perdí', clases: 'bg-rose-500 text-white pulse-lost' };
-            } else if (tipo === 'Encontrado') {
-                return { texto: '👀 Encontrado', clases: 'bg-emerald-500 text-slate-950 font-black' };
-            } else {
-                return { texto: '🎉 ¡Devuelto!', clases: 'bg-amber-400 text-slate-950 font-black' };
-            }
-        }
-
-        function renderizarRecientesInicio() {
-            const contenedor = document.getElementById('contenedor-recientes-inicio');
-            const recientes = objetosMuro.slice(0, 3);
-
-            if (recientes.length === 0) {
-                contenedor.innerHTML = `
-                    <div class="col-span-full py-8 text-center bg-slate-900/50 border border-dashed border-slate-800 rounded-3xl p-6 space-y-2">
-                        <span class="text-3xl">🎒✨</span>
-                        <p class="text-xs md:text-sm font-bold text-slate-300">No hay avisos recientes reportados en este momento.</p>
-                        <p class="text-[11px] text-slate-400">¿Perdiste o encontraste algo en el colegio? ¡Sé el primero en avisar a la comunidad!</p>
-                        <div class="pt-2">
-                            <button onclick="cambiarVista('publicar')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition inline-flex items-center gap-1.5 shadow">
-                                <span>➕ Publicar primer aviso</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            contenedor.innerHTML = recientes.map(obj => {
-                const badge = obtenerBadge(obj.tipo);
-                const cant = (obj.comentarios || []).length;
-                return `
-                    <div onclick="abrirModalDetalle('${obj.id}')" class="cursor-pointer bg-slate-900/90 hover:bg-slate-800/90 border border-slate-800 hover:border-indigo-500/40 p-3.5 rounded-3xl flex items-center gap-3.5 transition group">
-                        <img src="${obj.foto}" alt="Objeto" class="w-16 h-16 rounded-2xl object-cover shrink-0 bg-slate-950 border border-slate-800 group-hover:scale-105 transition" onerror="this.src='https://placehold.co/200x200/0f172a/f472b6?text=Objeto'">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${badge.clases}">${badge.texto}</span>
-                                <span class="text-[10px] text-slate-400 truncate">📍 ${obj.lugar}</span>
-                            </div>
-                            <h4 class="text-xs md:text-sm font-extrabold text-white truncate mt-1">${obj.titulo}</h4>
-                            <p class="text-[10px] text-indigo-300 font-semibold mt-0.5 flex items-center gap-1">
-                                <span>💬 ${cant} ${cant === 1 ? 'comentario' : 'comentarios'}</span>
-                                <span class="text-slate-500">• Toca para abrir</span>
-                            </p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderizarMuro() {
-            const contenedor = document.getElementById('muro-contenedor-tarjetas');
-            const busqueda = (document.getElementById('input-buscador').value || '').trim().toLowerCase();
-            document.getElementById('btn-limpiar-busqueda').classList.toggle('hidden', busqueda === '');
-
-            const filtrados = objetosMuro.filter(obj => {
-                const cumpleEstado = filtroEstadoActual === 'Todos' || obj.tipo === filtroEstadoActual;
-                const textoComentarios = (obj.comentarios || []).map(c => c.texto + " " + c.autor).join(" ").toLowerCase();
-                const cumpleTexto = !busqueda ||
-                    obj.titulo.toLowerCase().includes(busqueda) ||
-                    obj.lugar.toLowerCase().includes(busqueda) ||
-                    obj.autor.toLowerCase().includes(busqueda) ||
-                    obj.categoria.toLowerCase().includes(busqueda) ||
-                    textoComentarios.includes(busqueda);
-                return cumpleEstado && cumpleTexto;
-            });
-
-            document.getElementById('label-conteo-filtrados').innerText = `Mostrando ${filtrados.length} ${filtrados.length === 1 ? 'aviso' : 'avisos'}`;
-
-            if (filtrados.length === 0) {
-                if (objetosMuro.length === 0) {
-                    contenedor.innerHTML = `
-                        <div class="col-span-full py-12 text-center bg-slate-900/60 border border-dashed border-slate-800 rounded-3xl p-6 space-y-2">
-                            <span class="text-3xl">✨🎒</span>
-                            <p class="text-sm font-bold text-slate-200">El muro está al día. No hay objetos perdidos reportados en este momento.</p>
-                            <p class="text-xs text-slate-400">Si se te quedó algo o encontraste un objeto en el colegio, crea una publicación con tu cuenta verificada.</p>
-                            <div class="pt-2">
-                                <button onclick="cambiarVista('publicar')" class="bg-gradient-to-r from-pink-500 to-indigo-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow">
-                                    ➕ Publicar aviso en el muro
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    contenedor.innerHTML = `
-                        <div class="col-span-full py-12 text-center bg-slate-900/60 border border-dashed border-slate-800 rounded-3xl p-6 space-y-2">
-                            <span class="text-3xl">🔍</span>
-                            <p class="text-sm font-bold text-slate-300">No hay publicaciones con ese filtro.</p>
-                            <button onclick="limpiarFiltros()" class="text-xs font-extrabold text-pink-400 hover:underline">Limpiar búsqueda y mostrar todo</button>
-                        </div>
-                    `;
-                }
-                return;
-            }
-
-            contenedor.innerHTML = filtrados.map(obj => {
-                const badge = obtenerBadge(obj.tipo);
-                const comentarios = obj.comentarios || [];
-                const ultimoComentario = comentarios.length > 0 ? comentarios[comentarios.length - 1] : null;
-
-                const botonBorrarMod = modoModerador ? `
-                    <button onclick="event.stopPropagation(); pedirConfirmacionBorrado('objeto', '${obj.id}')" class="bg-rose-600/90 hover:bg-rose-600 text-white text-[10px] font-bold px-2 py-1 rounded-lg shadow transition flex items-center gap-1 shrink-0" title="Eliminar como administrador">
-                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        <span>Borrar</span>
-                    </button>
-                ` : '';
-
-                return `
-                    <article onclick="abrirModalDetalle('${obj.id}')" class="cursor-pointer bg-slate-900/90 hover:bg-slate-900 border ${obj.tipo === 'Perdido' ? 'border-rose-500/30 hover:border-rose-500/50' : obj.tipo === 'Encontrado' ? 'border-emerald-500/30 hover:border-emerald-500/50' : 'border-amber-500/30 hover:border-amber-500/50'} rounded-3xl p-4 sm:p-5 shadow-lg transition flex flex-col justify-between gap-3.5 group">
-                        
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center gap-2">
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    <span class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full ${badge.clases}">
-                                        ${badge.texto}
-                                    </span>
-                                    <span class="text-[10px] font-semibold text-slate-300 bg-slate-950 px-2.5 py-0.5 rounded-full border border-slate-800">
-                                        📍 ${obj.lugar}
-                                    </span>
-                                </div>
-                                ${botonBorrarMod}
-                            </div>
-
-                            <div class="flex gap-3.5 items-start">
-                                <img src="${obj.foto}" alt="${obj.titulo}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shrink-0 bg-slate-950 border border-slate-800 group-hover:scale-105 transition" onerror="this.src='https://placehold.co/300x300/0f172a/f472b6?text=Objeto'">
-                                <div class="space-y-1 min-w-0 flex-1">
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${obj.categoria}</span>
-                                    <h3 class="text-xs sm:text-sm font-black text-white leading-snug line-clamp-2">${obj.titulo}</h3>
-                                    <p class="text-[11px] text-emerald-300 font-medium truncate">📦 ${obj.custodia}</p>
-                                    <p class="text-[10px] text-slate-400 truncate">👤 Por: <span class="text-slate-200 font-semibold">${obj.autor}</span></p>
-                                </div>
-                            </div>
-
-                            ${ultimoComentario ? `
-                                <div class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-[11px]">
-                                    <span class="font-extrabold text-pink-400">💬 ${ultimoComentario.autor}:</span>
-                                    <span class="text-slate-200"> "${ultimoComentario.texto}"</span>
-                                </div>
-                            ` : ''}
-                        </div>
-
-                        <div class="pt-2 border-t border-slate-800/80 flex justify-between items-center text-xs">
-                            <span class="text-indigo-300 font-bold text-[11px]">
-                                💬 ${comentarios.length} ${comentarios.length === 1 ? 'comentario' : 'comentarios'}
-                            </span>
-                            <span class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white font-extrabold text-[11px] px-3 py-1.5 rounded-xl transition">
-                                Ver pistas →
-                            </span>
-                        </div>
-                    </article>
-                `;
-            }).join('');
-            lucide.createIcons();
-        }
-
-        function seleccionarTipoFormulario(tipo) {
-            tipoFormularioActual = tipo;
-            const btnPerdido = document.getElementById('btn-form-perdido');
-            const btnEncontrado = document.getElementById('btn-form-encontrado');
-            const labelCustodia = document.getElementById('label-custodia');
-
-            if (tipo === 'Perdido') {
-                btnPerdido.className = "py-3.5 px-4 rounded-2xl border-2 border-rose-500 bg-rose-500/20 text-rose-200 font-black text-xs md:text-sm flex flex-col items-center gap-1 transition shadow-lg";
-                btnEncontrado.className = "py-3.5 px-4 rounded-2xl border-2 border-slate-700 bg-slate-950 text-slate-400 font-bold text-xs md:text-sm flex flex-col items-center gap-1 transition";
-                labelCustodia.innerText = "¿Dónde te avisan si alguien lo ve? *";
-            } else {
-                btnEncontrado.className = "py-3.5 px-4 rounded-2xl border-2 border-emerald-500 bg-emerald-500/20 text-emerald-200 font-black text-xs md:text-sm flex flex-col items-center gap-1 transition shadow-lg";
-                btnPerdido.className = "py-3.5 px-4 rounded-2xl border-2 border-slate-700 bg-slate-950 text-slate-400 font-bold text-xs md:text-sm flex flex-col items-center gap-1 transition";
-                labelCustodia.innerText = "¿Dónde dejaste guardado el objeto? *";
-            }
-        }
-
-        function elegirFotoRapida(url) {
-            fotoSeleccionadaURL = url;
-            document.getElementById('img-preview').src = url;
-            mostrarToast("Imagen de referencia seleccionada", "📸");
-        }
-
-        function actualizarFotoPorCategoria() {
-            const cat = document.getElementById('form-categoria').value;
-            const mapa = {
-                "🧥 Uniforme / Ropa": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80",
-                "📱 Celular / Audífonos": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80",
-                "📐 Calculadora / Útiles": "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=400&q=80",
-                "🪪 Pase TNE / Carnet": "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=400&q=80",
-                "🍼 Botella / Lonchera": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=400&q=80",
-                "🔑 Llaves / Lentes": "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=400&q=80"
-            };
-            if (mapa[cat]) elegirFotoRapida(mapa[cat]);
-        }
-
-        function procesarFotoArchivo(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                fotoSeleccionadaURL = event.target.result;
-                document.getElementById('img-preview').src = fotoSeleccionadaURL;
-                mostrarToast("Foto cargada desde tu dispositivo", "📸");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function abrirModalDetalle(id) {
-            idObjetoAbiertoEnModal = id;
-            actualizarContenidoModalDetalle(id);
-            document.getElementById('modal-detalle').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function cerrarModalDetalle() {
-            idObjetoAbiertoEnModal = null;
-            document.getElementById('modal-detalle').classList.add('hidden');
-        }
-
-        function actualizarContenidoModalDetalle(id) {
-            const obj = objetosMuro.find(o => o.id === id);
-            if (!obj) {
-                cerrarModalDetalle();
-                return;
-            }
-
-            const badge = obtenerBadge(obj.tipo);
-            const badgeEl = document.getElementById('detalle-badge-estado');
-            badgeEl.className = `text-[10px] font-black uppercase px-2.5 py-1 rounded-full ${badge.clases}`;
-            badgeEl.innerText = badge.texto;
-
-            document.getElementById('detalle-categoria').innerText = obj.categoria;
-            document.getElementById('detalle-img').src = obj.foto;
-            document.getElementById('detalle-titulo').innerText = obj.titulo;
-            document.getElementById('detalle-lugar').innerText = obj.lugar;
-            document.getElementById('detalle-custodia').innerText = obj.custodia;
-            document.getElementById('detalle-autor').innerText = obj.autor;
-
-            const btnRecuperado = document.getElementById('btn-marcar-recuperado');
-            if (obj.tipo === 'Recuperado') {
-                btnRecuperado.innerText = "↩️ Reabrir Aviso";
-                btnRecuperado.className = "bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3 py-2 rounded-xl transition shrink-0";
-            } else {
-                btnRecuperado.innerText = "🎉 ¡Ya se entregó!";
-                btnRecuperado.className = "bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs px-3 py-2 rounded-xl transition shadow shrink-0";
-            }
-
-            const comentarios = obj.comentarios || [];
-            document.getElementById('detalle-num-comentarios').innerText = comentarios.length;
-            const listaEl = document.getElementById('detalle-lista-comentarios');
-
-            if (comentarios.length === 0) {
-                listaEl.innerHTML = `
-                    <div class="bg-slate-950 border border-dashed border-slate-800 rounded-2xl p-4 text-center text-xs text-slate-400">
-                        Nadie ha comentado aún. ¿Reconoces el objeto o sabes dónde está? ¡Escribe abajo la primera pista! 👇
-                    </div>
-                `;
-            } else {
-                listaEl.innerHTML = comentarios.map(c => `
-                    <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl flex justify-between items-start gap-2">
-                        <div class="flex items-start gap-2.5">
-                            <img src="${c.autorFoto || 'https://placehold.co/40x40/1e293b/ec4899?text=' + encodeURIComponent((c.autor || 'U')[0])}" class="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-700 mt-0.5">
-                            <div class="space-y-0.5">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs font-bold text-pink-400">👤 ${c.autor}</span>
-                                    <span class="text-[10px] text-slate-500">${c.hora || 'Ahora'}</span>
-                                </div>
-                                <p class="text-xs text-slate-200 leading-relaxed">${c.texto}</p>
-                            </div>
-                        </div>
-                        ${modoModerador ? `
-                            <button onclick="pedirConfirmacionBorrado('comentario', '${c.id}', '${obj.id}')" class="text-rose-400 hover:text-rose-300 p-1 shrink-0" title="Borrar comentario">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                            </button>
-                        ` : ''}
-                    </div>
-                `).join('');
-            }
-            actualizarInterfazAuth(currentUser);
-            lucide.createIcons();
-        }
-
-        async function publicarObjeto(e) {
-            e.preventDefault();
-
-            if (!currentUser) {
-                mostrarToast("Debes iniciar sesión con Google para publicar", "🔒");
-                iniciarSesionGoogle();
-                return;
-            }
-
-            const titulo = document.getElementById('form-titulo').value.trim();
-            const categoria = document.getElementById('form-categoria').value;
-            const lugar = document.getElementById('form-lugar').value.trim();
-            const custodia = document.getElementById('form-custodia').value;
-            const curso = document.getElementById('form-curso').value.trim();
-
-            const textoCompleto = (titulo + " " + lugar + " " + curso).toLowerCase();
-            if (PALABRAS_BLOQUEADAS.some(p => textoCompleto.includes(p))) {
-                mostrarToast("Por favor utiliza lenguaje respetuoso en la publicación.", "⚠️");
-                return;
-            }
-
-            const autorNombre = currentUser.displayName || "Estudiante";
-            const autorCompleto = `${autorNombre} (${curso})`;
-
-            const nuevoId = "item-" + Date.now();
-            const nuevoObj = {
-                id: nuevoId,
-                tipo: tipoFormularioActual,
-                titulo,
-                categoria,
-                lugar,
-                custodia,
-                autor: autorCompleto,
-                autorFoto: currentUser.photoURL || "",
-                autorEmail: currentUser.email || "",
-                foto: fotoSeleccionadaURL,
-                creadoEn: Date.now(),
-                comentarios: [],
-                comentariosJson: "[]"
-            };
-
-            if (nubeConectada && db) {
-                try {
-                    const docRef = doc(db, 'objetos_perdidos_colegio', nuevoId);
-                    await setDoc(docRef, nuevoObj);
-                } catch (err) {
-                    console.error("Error nube:", err);
-                    objetosMuro.unshift(nuevoObj);
-                    renderizarTodo();
-                }
-            } else {
-                objetosMuro.unshift(nuevoObj);
-                renderizarTodo();
-            }
-
-            document.getElementById('form-titulo').value = '';
-            document.getElementById('form-lugar').value = '';
-            document.getElementById('form-curso').value = '';
-            mostrarToast("¡Aviso publicado con tu cuenta verificada!", "🎉");
-            cambiarFiltroEstado('Todos');
-            cambiarVista('muro');
-        }
-
-        async function enviarComentario(e) {
-            e.preventDefault();
-            if (!idObjetoAbiertoEnModal) return;
-
-            if (!currentUser) {
-                mostrarToast("Debes iniciar sesión con Google para comentar", "🔒");
-                iniciarSesionGoogle();
-                return;
-            }
-
-            const texto = document.getElementById('comentario-texto').value.trim();
-            if (!texto) return;
-
-            if (PALABRAS_BLOQUEADAS.some(p => texto.toLowerCase().includes(p))) {
-                mostrarToast("Comentario no permitido por norma escolar.", "🛡️");
-                return;
-            }
-
-            const idx = objetosMuro.findIndex(o => o.id === idObjetoAbiertoEnModal);
-            if (idx === -1) return;
-
-            const ahora = new Date();
-            const horaStr = ahora.getHours().toString().padStart(2, '0') + ":" + ahora.getMinutes().toString().padStart(2, '0');
-
-            const nuevoCom = {
-                id: "com-" + Date.now(),
-                autor: currentUser.displayName || "Estudiante",
-                autorFoto: currentUser.photoURL || "",
-                autorEmail: currentUser.email || "",
-                texto,
-                hora: horaStr
-            };
-
-            const nuevosComentarios = [...(objetosMuro[idx].comentarios || []), nuevoCom];
-            objetosMuro[idx].comentarios = nuevosComentarios;
-
-            if (nubeConectada && db) {
-                try {
-                    const docRef = doc(db, 'objetos_perdidos_colegio', idObjetoAbiertoEnModal);
-                    await updateDoc(docRef, { comentariosJson: JSON.stringify(nuevosComentarios) });
-                } catch (err) {
-                    console.error("Error comentario nube:", err);
-                }
-            }
-
-            document.getElementById('comentario-texto').value = '';
-            actualizarContenidoModalDetalle(idObjetoAbiertoEnModal);
-            renderizarTodo();
-            mostrarToast("Comentario publicado", "💬");
-        }
-
-        // Exportar al ámbito global para los eventos onclick/onsubmit del HTML
-        window.iniciarSesionGoogle = iniciarSesionGoogle;
-        window.cerrarSesionGoogle = cerrarSesionGoogle;
-        window.cambiarVista = cambiarVista;
-        window.irAPublicarConTipo = irAPublicarConTipo;
-        window.filtrarDesdeInicio = filtrarDesdeInicio;
-        window.filtrarPorLugar = filtrarPorLugar;
-        window.limpiarFiltros = limpiarFiltros;
-        window.cambiarFiltroEstado = cambiarFiltroEstado;
-        window.renderizarMuro = renderizarMuro;
-        window.seleccionarTipoFormulario = seleccionarTipoFormulario;
-        window.elegirFotoRapida = elegirFotoRapida;
-        window.actualizarFotoPorCategoria = actualizarFotoPorCategoria;
-        window.procesarFotoArchivo = procesarFotoArchivo;
-        window.publicarObjeto = publicarObjeto;
-        window.abrirModalDetalle = abrirModalDetalle;
-        window.cerrarModalDetalle = cerrarModalDetalle;
-        window.rellenarComentarioRapido = rellenarComentarioRapido;
-        window.enviarComentario = enviarComentario;
-        window.cambiarEstadoRecuperadoActual = cambiarEstadoRecuperadoActual;
-        window.toqueSecretoLogo = toqueSecretoLogo;
-        window.abrirModalPin = abrirModalPin;
-        window.cerrarModalPin = cerrarModalPin;
-        window.verificarPinDocente = verificarPinDocente;
-        window.desactivarModerador = desactivarModerador;
-        window.pedirConfirmacionBorrado = pedirConfirmacionBorrado;
-        window.cerrarConfirmacionBorrado = cerrarConfirmacionBorrado;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            const btnConfirmar = document.getElementById('btn-confirmar-eliminar-accion');
-            if (btnConfirmar) {
-                btnConfirmar.onclick = ejecutarBorradoConfirmado;
-            }
-            iniciarConexionNube();
-        });
-    </script>
+   </form>
+  </div>
+ </div>
+</div></dialog>
+
+<dialog id="dc" class="mini"><div class="in"><h3 id="dc-t"></h3><p id="dc-p"></p><div class="row"><button class="btn" data-a="cierraC">Cancelar</button><button class="btn danger" data-a="borra">Eliminar</button></div></div></dialog>
+<dialog id="dp" class="mini"><form id="pf" class="in"><h3>Acceso de moderación</h3><p>Ingresa el PIN de respaldo para moderar avisos y comentarios.</p><input id="pin" type="password" maxlength="8" inputmode="numeric" autocomplete="off" aria-label="PIN"><div class="row"><button type="button" class="btn" data-a="cierraP">Cancelar</button><button class="btn ink">Ingresar</button></div></form></dialog>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import{initializeFirestore,collection,doc,setDoc,updateDoc,deleteDoc,onSnapshot,runTransaction}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+// ── Tus llaves de Firebase (sin cambios) ──────────────────────────
+const CFG={apiKey:"AIzaSyBDwRcHSmf-pJr8h3RUn3wXtgsfB8nhJJ0",authDomain:"lo-encontre-colegio.firebaseapp.com",projectId:"lo-encontre-colegio",storageBucket:"lo-encontre-colegio.firebasestorage.app",messagingSenderId:"1021284217007",appId:"1:1021284217007:web:c5db629efb70b22fad645a"};
+// ── Correos con rol administrador automático ──────────────────────
+const ADMINS=["juanfco.valencia@gmail.com"];
+const PIN_DOCENTE="2026"; // respaldo opcional
+const BLOQ=["tonto","idiota","estupido","weon","wn","ctm","mierda","culiao","feo","robo","ladron"];
+const COL="objetos_perdidos_colegio";
+
+const U=i=>`https://images.unsplash.com/photo-${i}?auto=format&fit=crop&w=400&q=80`;
+const REF={"Uniforme / Ropa":U("1556905055-8f358a7a47b2"),"Celular / Audífonos":U("1511707171634-5f897ff02aa9"),"Calculadora / Útiles":U("1594980596870-8aa52a78d8cd"),"Pase TNE / Carnet":U("1582139329536-e7284fece509"),"Botella / Lonchera":U("1602143407151-7111542de6e8"),"Llaves / Lentes":U("1582139329536-e7284fece509")};
+const CUST=["Avisar aquí en comentarios o ir a mi sala","Está guardado en Inspectoría","Lo tengo yo (lo entrego en el recreo)","Está en Portería / Recepción","Quedó en el Kiosco / Casino"];
+const LUG=[["Inspectoría","inspectoria"],["Cancha","cancha|grader"],["Casino","casino|kiosco"],["Gimnasio","gimnasio"],["Salas","sala"],["Baños","bano"]];
+const ST={Perdido:["Perdido","lost"],Encontrado:["Encontrado","found"],Recuperado:["Devuelto","done"]};
+const EST={ok:["ok","En vivo"],off:["off","Sin conexión"],perm:["off","Sin acceso"],wait:["wait","Conectando…"]};
+const PH="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23c5ccd8'/%3E%3C/svg%3E";
+const VACIO='<div class="vacio"><p>Todavía no hay avisos. Si perdiste o encontraste algo, sé el primero en publicar.</p><button class="btn pri" data-v="publicar">Publicar aviso</button></div>';
+
+const S={vista:"inicio",est:"Todos",lugar:"",tipo:"Perdido",foto:REF["Uniforme / Ropa"],subida:false,abierto:null,nCom:-1,borrar:null,user:null,mod:false,items:[],cargado:false,fallo:false,perm:false,toques:0};
+let db,auth,tt,ttap;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const limpia=c=>String(c||"").replace(/^[^\p{L}\p{N}]+/u,"");
+const ic=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
+const tag=t=>`<span class="tag ${(ST[t]||ST.Perdido)[1]}">${(ST[t]||ST.Perdido)[0]}</span>`;
+const hace=t=>{if(!t)return"";const m=Math.floor((Date.now()-t)/6e4);return m<1?"ahora":m<60?`hace ${m} min`:m<1440?`hace ${Math.floor(m/60)} h`:`hace ${Math.floor(m/1440)} d`};
+const bloqueado=t=>new RegExp("\\b("+BLOQ.join("|")+")\\b").test(norm(t));
+const esAdmin=e=>{if(!e)return false;const m=e.trim().toLowerCase();if(ADMINS.some(a=>a.trim().toLowerCase()===m))return true;try{return JSON.parse(localStorage.getItem("admins_vinculados_google")||"[]").includes(m)}catch{return false}};
+
+function toast(m,k="ok"){const t=$("#toast");t.textContent=m;t.className="on "+k;try{t.hidePopover()}catch{}try{t.showPopover()}catch{}clearTimeout(tt);tt=setTimeout(()=>{t.className=""},3400)}
+function estado(k){const l=$("#live");l.className="live "+EST[k][0];l.querySelector("b").textContent=EST[k][1];l.title=EST[k][1]}
+function fallo(e){console.error(e);toast(e?.code==="permission-denied"?"Firebase no permitió esta acción. Revisa las reglas de Firestore.":"No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.","err")}
+function tema(t,guardar=true){const r=document.documentElement;r.classList.add("theme-anim");r.dataset.tema=t;if(guardar)try{localStorage.setItem("tema",t)}catch{}$("meta[name=theme-color]").content=t=="dark"?"#0D1220":"#F5F6F8";setTimeout(()=>r.classList.remove("theme-anim"),300)}
+
+// ── Navegación ────────────────────────────────────────────────────
+function ir(v){S.vista=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);document.querySelectorAll("nav [data-v]").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v?"page":"false"));scrollTo({top:0});if(v==="publicar")pintaForm()}
+
+// ── Render ────────────────────────────────────────────────────────
+const cargando=()=>!S.cargado?'<p class="vacio">Cargando avisos…</p>':S.fallo&&!S.items.length?'<p class="vacio">No se pudieron cargar los avisos. Revisa tu conexión y las reglas de Firestore.</p>':"";
+const card=o=>`<article class="card ${(ST[o.tipo]||ST.Perdido)[1]}"><div class="ph"><img loading="lazy" src="${esc(o.foto||PH)}" alt="">${tag(o.tipo)}${S.mod?`<button class="ib del" data-a="borraObj" data-id="${esc(o.id)}" aria-label="Eliminar aviso">${ic("trash")}</button>`:""}</div><div class="cb"><h3><button class="open" data-a="abre" data-id="${esc(o.id)}">${esc(o.titulo)}</button></h3><p>${ic("pin")}<span>${esc(o.lugar)}</span></p><p>${ic("box")}<span>${esc(o.custodia)}</span></p><div class="cf"><span>${esc(o.autor)} · ${hace(o.creadoEn)}</span><span>${ic("msg")}${o.comentarios.length}</span></div></div></article>`;
+const fila=o=>`<div class="fila"><img loading="lazy" src="${esc(o.foto||PH)}" alt=""><div><h3><button class="open" data-a="abre" data-id="${esc(o.id)}">${esc(o.titulo)}</button></h3>${tag(o.tipo)}<small>${esc(o.lugar)} · ${o.comentarios.length} ${o.comentarios.length==1?"comentario":"comentarios"}</small></div></div>`;
+const com=c=>`<div class="cm"><img src="${esc(c.autorFoto||PH)}" alt=""><div><b>${esc(c.autor)}</b><time>${c.creadoEn?hace(c.creadoEn):esc(c.hora||"")}</time><p>${esc(c.texto)}</p></div>${S.mod?`<button class="ib" data-a="borraCom" data-id="${esc(c.id)}" aria-label="Eliminar comentario">${ic("trash")}</button>`:""}</div>`;
+
+function pinta(){
+ const n=t=>S.items.filter(o=>o.tipo===t).length;
+ $("#s-P").textContent=n("Perdido");$("#s-E").textContent=n("Encontrado");$("#s-R").textContent=n("Recuperado");$("#cnt").textContent=S.items.length;
+ pintaAuth();
+ const r=S.items.slice(0,4);$("#recientes").innerHTML=cargando()||(r.length?r.map(fila).join(""):VACIO);
+ pintaMuro();if(S.abierto)pintaDetalle();
+}
+function pintaMuro(){
+ const q=$("#q").value;$("#qx").hidden=!q;
+ $("#seg").innerHTML=[["Todos","Todos"],["Perdido","Perdidos"],["Encontrado","Encontrados"],["Recuperado","Devueltos"]].map(([e,t])=>`<button data-a="est" data-e="${e}" aria-pressed="${S.est===e}">${t}</button>`).join("");
+ $("#chips").innerHTML=LUG.map(([t])=>`<button class="chip" data-a="lug" data-l="${t}" aria-pressed="${S.lugar===t}">${t}</button>`).join("");
+ const L=LUG.find(l=>l[0]===S.lugar),k=norm(q.trim());
+ const f=S.items.filter(o=>(S.est==="Todos"||o.tipo===S.est)&&(!L||new RegExp(L[1]).test(norm(o.lugar)))&&(!k||norm([o.titulo,o.lugar,o.autor,o.categoria,...o.comentarios.map(c=>c.texto+" "+c.autor)].join(" ")).includes(k)));
+ $("#cuenta").textContent=S.cargado?`${f.length} ${f.length==1?"aviso":"avisos"}`:"";
+ $("#grid").innerHTML=cargando()||(f.length?f.map(card).join(""):S.items.length?'<div class="vacio"><p>Ningún aviso coincide con tu búsqueda.</p><button class="btn" data-a="limpia">Limpiar filtros</button></div>':VACIO);
+}
+function pintaAuth(){
+ const u=S.user;$("#login").hidden=!!u;$("#me").hidden=!u;$("#mod").hidden=!S.mod;$("#c-login").hidden=!!u;$("#c-form").hidden=!u;
+ if(u){$("#meImg").src=u.photoURL||PH;$("#meName").textContent=(u.displayName||u.email||"").split(" ")[0]}
+ $("#authbox").innerHTML=u?`<img src="${esc(u.photoURL||PH)}" alt=""><div><b>${esc(u.displayName||"Usuario Google")}</b><small>${esc(u.email||"")}${S.mod?" · Administrador":""}</small></div>`:`<div><b>Inicia sesión para publicar</b><small>Tu identidad queda verificada con Google.</small></div><button type="button" class="btn" data-a="login"><svg class="g"><use href="#g"/></svg>Ingresar con Google</button>`;
+}
+function pintaForm(){
+ const p=S.tipo==="Perdido";
+ document.querySelectorAll(".tipo").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===S.tipo));
+ $("#l-lugar").textContent=p?"¿Dónde lo viste por última vez?":"¿Dónde lo encontraste?";
+ $("#l-cust").textContent=p?"¿Dónde te avisan si alguien lo ve?":"¿Dónde dejaste guardado el objeto?";
+ $("#prev").src=S.foto;$("#prevtxt").textContent=S.subida?"Tu foto está lista.":"Imagen de referencia. Sube una foto real si la tienes.";
+}
+function pintaDetalle(){
+ const o=S.items.find(x=>x.id===S.abierto);
+ if(!o){if($("#dd").open)$("#dd").close();return}
+ $("#d-tag").innerHTML=tag(o.tipo)+esc(limpia(o.categoria));
+ const im=$("#d-img");if(im.getAttribute("src")!==(o.foto||PH))im.src=o.foto||PH;
+ $("#d-tit").textContent=o.titulo;$("#d-lug").textContent=o.lugar;$("#d-cus").textContent=o.custodia;$("#d-aut").textContent=o.autor;
+ const r=o.tipo==="Recuperado",b=$("#d-rec");b.textContent=r?"Reabrir aviso":"Marcar como devuelto";b.className="btn sm"+(r?"":" pri");
+ const n=o.comentarios.length,L=$("#d-list");$("#d-n").textContent=n;
+ L.innerHTML=n?o.comentarios.map(com).join(""):'<p class="vacio">Nadie ha comentado todavía. Si reconoces el objeto o sabes dónde está, escribe la primera pista.</p>';
+ if(S.nCom<0)L.scrollTop=L.scrollHeight;else if(n>S.nCom)L.lastElementChild?.scrollIntoView({block:"nearest",behavior:"smooth"});
+ S.nCom=n;
+}
+
+// ── Firebase ──────────────────────────────────────────────────────
+function nube(){
+ try{
+  let cfg=CFG;if(typeof __firebase_config!=="undefined"&&__firebase_config)cfg=JSON.parse(__firebase_config);
+  const app=initializeApp(cfg);auth=getAuth(app);
+  db=initializeFirestore(app,{experimentalAutoDetectLongPolling:true});
+  onAuthStateChanged(auth,u=>{S.user=u;S.mod=!!(u&&esAdmin(u.email));pinta()});
+  onSnapshot(collection(db,COL),snap=>{
+   S.items=snap.docs.map(d=>{const x=d.data();let c=[];try{c=x.comentariosJson?JSON.parse(x.comentariosJson):(x.comentarios||[])}catch{}return{...x,id:d.id,comentarios:c}}).sort((a,b)=>(b.creadoEn||0)-(a.creadoEn||0));
+   S.cargado=true;S.fallo=false;S.perm=false;estado(navigator.onLine?"ok":"off");pinta();
+  },err=>{console.error("Firestore:",err);S.cargado=true;S.fallo=true;S.perm=err.code==="permission-denied";estado(S.perm?"perm":"off");pinta()});
+ }catch(e){console.warn("Firebase:",e);S.cargado=true;S.fallo=true;estado("off");pinta()}
+}
+const mutaCom=(id,fn)=>runTransaction(db,async t=>{
+ const r=doc(db,COL,id),s=await t.get(r);if(!s.exists())throw new Error("El aviso ya no existe");
+ const x=s.data();let c=[];try{c=x.comentariosJson?JSON.parse(x.comentariosJson):(x.comentarios||[])}catch{}
+ t.update(r,{comentariosJson:JSON.stringify(fn(c))});
+});
+
+async function login(){
+ if(!auth)return toast("Firebase no está disponible","err");
+ if(/FBAN|FBAV|Instagram|MicroMessenger/i.test(navigator.userAgent))toast("Si no abre Google, abre este enlace en Chrome o Safari","info");
+ const p=new GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});
+ try{const r=await signInWithPopup(auth,p);toast(esAdmin(r.user.email)?"Modo administrador activo":`Hola, ${r.user.displayName||"bienvenido"}`)}
+ catch(e){
+  console.error(e);
+  if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment")return signInWithRedirect(auth,p);
+  if(e.code==="auth/unauthorized-domain")toast("Dominio no autorizado: agrégalo en Firebase › Authentication › Dominios autorizados","err");
+  else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request")toast("No se pudo iniciar sesión con Google","err");
+ }
+}
+
+// ── Acciones ──────────────────────────────────────────────────────
+const A={
+ login,
+ async logout(){try{await signOut(auth);toast("Sesión cerrada")}catch(e){fallo(e)}},
+ tema:()=>tema(document.documentElement.dataset.tema==="dark"?"light":"dark"),
+ logo(){ir("inicio");S.toques++;clearTimeout(ttap);ttap=setTimeout(()=>{S.toques=0},2000);if(S.toques>=3){S.toques=0;A.pin()}},
+ nuevo(el){S.tipo=el.dataset.t;ir("publicar")},
+ tipo(el){S.tipo=el.dataset.t;pintaForm()},
+ filtra(el){S.est=el.dataset.e;S.lugar="";$("#q").value="";ir("muro");pintaMuro()},
+ est(el){S.est=el.dataset.e;pintaMuro()},
+ lug(el){S.lugar=S.lugar===el.dataset.l?"":el.dataset.l;pintaMuro()},
+ limpia(){$("#q").value="";S.est="Todos";S.lugar="";pintaMuro()},
+ abre(el){S.abierto=el.dataset.id;S.nCom=-1;pintaDetalle();$("#dd").showModal()},
+ cierra:()=>$("#dd").close(),
+ rapido(el){const i=$("#c-txt");i.value=el.dataset.t;i.focus()},
+ elige:()=>$("#f-foto").click(),
+ recup:cambiaEstado,
+ borraObj(el){pideBorrar("objeto",el.dataset.id)},
+ borraCom(el){pideBorrar("comentario",el.dataset.id,S.abierto)},
+ borra:ejecutaBorrado,
+ cierraC:()=>$("#dc").close(),
+ ocultaMod(){S.mod=false;pinta();toast("Vista de moderación oculta")},
+ pin(){$("#pin").value="";$("#dp").showModal();$("#pin").focus()},
+ cierraP:()=>$("#dp").close()
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a],[data-v]");if(!el)return;if(el.dataset.v)return ir(el.dataset.v);A[el.dataset.a]?.(el,e)});
+
+async function cambiaEstado(){
+ const o=S.items.find(x=>x.id===S.abierto);if(!o)return;
+ const rec=o.tipo!=="Recuperado";
+ try{await updateDoc(doc(db,COL,o.id),rec?{tipo:"Recuperado",tipoPrevio:o.tipo}:{tipo:o.tipoPrevio||"Perdido"});toast(rec?"Aviso marcado como devuelto":"Aviso reabierto")}catch(e){fallo(e)}
+}
+function pideBorrar(tipo,id,padre){
+ S.borrar={tipo,id,padre};const o=tipo==="objeto";
+ $("#dc-t").textContent=o?"¿Eliminar este aviso?":"¿Eliminar este comentario?";
+ $("#dc-p").textContent=o?"Se borrará del muro para todo el colegio.":"Se quitará de la conversación.";
+ $("#dc").showModal();
+}
+async function ejecutaBorrado(){
+ const b=S.borrar;if(!b)return;
+ try{
+  if(b.tipo==="objeto"){await deleteDoc(doc(db,COL,b.id));if(S.abierto===b.id)$("#dd").close();toast("Aviso eliminado")}
+  else{await mutaCom(b.padre,c=>c.filter(x=>x.id!==b.id));toast("Comentario eliminado")}
+ }catch(e){fallo(e)}
+ S.borrar=null;$("#dc").close();
+}
+
+async function comenta(e){
+ e.preventDefault();const u=S.user;if(!u)return login();
+ const inp=$("#c-txt"),texto=inp.value.trim();if(!texto)return;
+ if(bloqueado(texto))return toast("Comentario no permitido por norma escolar","err");
+ const nuevo={id:"com-"+Date.now(),autor:u.displayName||"Estudiante",autorFoto:u.photoURL||"",autorEmail:u.email||"",texto,hora:new Date().toTimeString().slice(0,5),creadoEn:Date.now()};
+ const b=$("#c-send");b.disabled=true;
+ try{await mutaCom(S.abierto,c=>[...c,nuevo]);inp.value="";toast("Comentario publicado")}catch(x){fallo(x)}finally{b.disabled=false}
+}
+
+function comprime(f){return new Promise((ok,no)=>{
+ const u=URL.createObjectURL(f),im=new Image();
+ im.onload=()=>{URL.revokeObjectURL(u);let m=960,q=.72,d;
+  do{const k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+   const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);d=c.toDataURL("image/jpeg",q);q-=.1;m*=.85}
+  while(d.length>380000&&q>.3);ok(d)};
+ im.onerror=()=>no();im.src=u})}
+async function sube(e){
+ const f=e.target.files[0];if(!f)return;
+ try{S.foto=await comprime(f);S.subida=true;pintaForm()}catch{toast("No se pudo leer esa imagen. Prueba con otra foto.","err")}
+ e.target.value="";
+}
+async function publica(e){
+ e.preventDefault();const u=S.user;
+ if(!u){toast("Inicia sesión con Google para publicar","err");return login()}
+ const v=s=>$(s).value.trim(),titulo=v("#f-titulo"),lugar=v("#f-lugar"),curso=v("#f-curso");
+ if(bloqueado(`${titulo} ${lugar} ${curso}`))return toast("Usa un lenguaje respetuoso en el aviso","err");
+ const id="item-"+Date.now();
+ const obj={id,tipo:S.tipo,titulo,categoria:$("#f-cat").value,lugar,custodia:$("#f-cust").value,autor:`${u.displayName||"Estudiante"} (${curso})`,autorFoto:u.photoURL||"",autorEmail:u.email||"",foto:S.foto,creadoEn:Date.now(),comentarios:[],comentariosJson:"[]"};
+ const b=$("#pub");b.disabled=true;
+ try{
+  const lento=await Promise.race([setDoc(doc(db,COL,id),obj).then(()=>false),new Promise(r=>setTimeout(()=>r(true),8000))]);
+  e.target.reset();S.subida=false;S.foto=REF[$("#f-cat").value];S.est="Todos";S.lugar="";$("#q").value="";
+  toast(lento?"Sin conexión estable: tu aviso se enviará apenas vuelva la señal":"Aviso publicado",lento?"info":"ok");ir("muro");pintaMuro();
+ }catch(x){fallo(x)}finally{b.disabled=false}
+}
+
+// ── Arranque ──────────────────────────────────────────────────────
+$("#f-cat").innerHTML=Object.keys(REF).map(c=>`<option>${c}</option>`).join("");
+$("#f-cust").innerHTML=CUST.map(c=>`<option>${c}</option>`).join("");
+$("#q").addEventListener("input",pintaMuro);
+$("#f").addEventListener("submit",publica);
+$("#cf").addEventListener("submit",comenta);
+$("#f-foto").addEventListener("change",sube);
+$("#f-cat").addEventListener("change",()=>{if(!S.subida){S.foto=REF[$("#f-cat").value];pintaForm()}});
+$("#pf").addEventListener("submit",e=>{
+ e.preventDefault();if($("#pin").value.trim()!==PIN_DOCENTE){toast("PIN incorrecto","err");$("#pin").value="";return}
+ S.mod=true;
+ if(S.user?.email)try{const v=JSON.parse(localStorage.getItem("admins_vinculados_google")||"[]"),m=S.user.email.toLowerCase();if(!v.includes(m)){v.push(m);localStorage.setItem("admins_vinculados_google",JSON.stringify(v))}}catch{}
+ $("#dp").close();toast("Modo administrador activado");pinta();
+});
+$("#dd").addEventListener("close",()=>{S.abierto=null});
+document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{if(e.target===d)d.close()}));
+document.addEventListener("error",e=>{const t=e.target;if(t.tagName==="IMG"&&!t.dataset.fb){t.dataset.fb=1;t.src=PH}},true);
+addEventListener("offline",()=>estado("off"));
+addEventListener("online",()=>estado(S.perm?"perm":S.cargado?"ok":"wait"));
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",e=>{try{if(localStorage.getItem("tema"))return}catch{}tema(e.matches?"dark":"light",false)});
+
+ir("inicio");pinta();nube();
+</script>
 </body>
 </html>
