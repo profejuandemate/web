@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E2539"/>
+      <stop offset="100%" stop-color="#0D1220"/>
+    </linearGradient>
+  </defs>
+  <!-- Fondo redondeado estilo app móvil moderna -->
+  <rect width="512" height="512" rx="120" fill="url(#grad)"/>
+  
+  <!-- Mochila / Etiqueta Dorada -->
+  <path d="M120 90 A40 40 0 0 1 160 50 L352 50 A40 40 0 0 1 392 90 L392 422 A40 40 0 0 1 352 462 L160 462 A40 40 0 0 1 120 422 Z" fill="#FFC531"/>
+  
+  <!-- Ojo superior blanco -->
+  <circle cx="256" cy="140" r="32" fill="#FFFFFF"/>
+  
+  <!-- Detalles contraste oscuro -->
+  <circle cx="256" cy="240" r="26" fill="#17203A"/>
+  <path d="M256 295 L256 395" stroke="#17203A" stroke-width="44" stroke-linecap="round"/>
+</svg>

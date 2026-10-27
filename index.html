@@ -516,3 +516,39 @@ ir("inicio");pinta();nube();
 </script>
 </body>
 </html>
+
+<!-- ... existing code ... -->
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F5F6F8">
+<title>¡Lo Encontré! · Objetos perdidos del colegio</title>
+
+<!-- ============================================================== -->
+<!-- CONFIGURACIÓN PWA Y MODO NATIVO (SIN BARRA DE NAVEGACIÓN) -->
+<!-- ============================================================== -->
+<!-- Manifiesto para Android (Chrome) -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Meta tags para iOS (Safari / iPhone) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="¡Lo Encontré!">
+<link rel="apple-touch-icon" href="icon.svg">
+
+<!-- Ícono de la pestaña / app -->
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<!-- ... existing code ... -->
+addEventListener("online",()=>estado(S.perm?"perm":S.cargado?"ok":"wait"));
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",e=>{try{if(localStorage.getItem("tema"))return}catch{}tema(e.matches?"dark":"light",false)});
+
+// ── REGISTRO SERVICE WORKER (Habilita instalación nativa en Android) ──
+if ('serviceWorker' in navigator) {
+ window.addEventListener('load', () => {
+  navigator.serviceWorker.register('sw.js').catch(err => console.log('SW offline:', err));
+ });
+}
+
+ir("inicio");pinta();nube();
+</script>
+</body>
+</html>

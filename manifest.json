@@ -1,0 +1,19 @@
+{
+  "name": "¡Lo Encontré! · Objetos Perdidos",
+  "short_name": "¡Lo Encontré!",
+  "description": "Muro escolar colaborativo para reportar y recuperar objetos perdidos en tiempo real.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D1220",
+  "theme_color": "#0D1220",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
